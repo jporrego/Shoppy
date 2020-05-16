@@ -28,6 +28,16 @@ ShoppingCart.prototype.calculateTotal = function () {
   this.total = totalPrice;
 };
 
+ShoppingCart.prototype.calculateNumberOfItems = function () {
+  let numItems = 0;
+
+  for (product of this.cartProducts) {
+    numItems++;
+  }
+
+  return numItems;
+};
+
 let shoppingCartInstance = new ShoppingCart();
 
 // Testing list of products
@@ -69,14 +79,13 @@ let productDatabase = [
     category: "Keyboard",
   },
   {
-    name: "Ducky Shine 3 Yellow",
-    description:
-      "Yellow Ducky is a special Shine 3, clad with yellow engraved PBT keycaps with yellow casing.",
-    price: 155.0,
-    img: "../img/product_keyboard_ducky_shine3yellow.png",
+    name: "Varmilo VA87M Radiation",
+    description: "Varmilo VA87M Radiation mechanical keyboard with white LEDs.",
+    price: 129.0,
+    img: "../img/product_keyboard_varmilo_radiation.png",
     id: 04,
-    brand: "Ducky",
-    model: "Shine 3 Yellow",
+    brand: "Varmilo",
+    model: "VA87M Radiation",
     category: "Keyboard",
   },
   {
@@ -185,10 +194,12 @@ document.querySelectorAll(".product").forEach((item) => {
 console.log(shoppingCartInstance);
 
 function getShopCartData() {
+  /*
   const shoppingCart = document.querySelector(".shopping-cart");
   const cartItems = shoppingCart.querySelector(".shopping-cart__products");
   const total = shoppingCart.querySelector(".shopping-cart__total");
 
+  
   shoppingCart.querySelector(".shopping-cart__products").innerHTML = "";
   for (product of shoppingCartInstance.cartProducts) {
     let productLi = document.createElement("li");
@@ -198,9 +209,18 @@ function getShopCartData() {
       .querySelector(".shopping-cart__products")
       .appendChild(productLi);
   }
-
   shoppingCartInstance.calculateTotal();
   total.innerHTML = "$" + shoppingCartInstance.total;
+  */
+
+  // Shopping Cart Icon
+  document.querySelector(
+    ".navbar__shoppingCart__number"
+  ).innerHTML = shoppingCartInstance.calculateNumberOfItems();
+
+  shoppingCartInstance.calculateTotal();
+  document.querySelector(".shoppingCart__modal__total").innerHTML =
+    "$" + shoppingCartInstance.total;
 }
 
 getShopCartData();
@@ -219,4 +239,31 @@ function addToCart(e) {
   }
 
   getShopCartData();
+  console.log(shoppingCartInstance);
 }
+
+// Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+var btn = document.querySelector(".navbar__shoppingCart");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on the button, open the modal
+btn.onclick = function () {
+  modal.style.display = "block";
+};
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function () {
+  modal.style.display = "none";
+};
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function (event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+};

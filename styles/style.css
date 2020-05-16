@@ -10,6 +10,8 @@ html {
     /* Colors */
     --color-bright: rgb(250, 250, 250);
     --color-grey-light-1: rgb(233, 233, 233);
+    --color-buewater: #31addf;
+    --color-purple-dark: #11182e;
     /* Fonts */
     --font-primary: 'Noto Sans JP', sans-serif;
     --font-secondary: 'Raleway', sans-serif;
@@ -25,23 +27,26 @@ body {
 .container {
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 8rem 1fr;
+    grid-template-rows: 12rem 1fr;
+    gap: 5rem;
     /*grid-template-rows: 8rem 80vh 1fr;*/
     background-color: var(--color-grey-light-1);
 }
 
 .navbar {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr min-content;
+    background-color: var(--color-buewater);
 }
 
 .navbar__logo {
     display: grid;
     align-items: center;
-    padding-left: 4rem;
+    padding-left: 6rem;
     font-family: var(--font-primary);
     font-size: 3rem;
     font-weight: 900;
+    color: var(--color-bright);
 }
 
 .navbar__links {
@@ -55,7 +60,43 @@ body {
     font-family: var(--font-primary);
     font-size: 1.3rem;
     font-weight: 700;
+    color: var(--color-bright);
     text-decoration: none;
+    transition: all .15s ease-out;
+}
+
+.navbar__links>a:hover {
+    color: white;
+}
+
+.navbar__shoppingCart {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    align-items: center;
+    justify-items: center;
+    padding-right: 7rem;
+    padding-left: 5rem;
+    padding-bottom: 2rem;
+}
+
+.navbar__shoppingCart-logo {
+    width: 4rem;
+    height: 4rem;
+    grid-row: 1/1;
+    grid-column: 1/1;
+}
+
+.navbar__shoppingCart-logo:hover span {
+    color: white;
+}
+
+.navbar__shoppingCart__number {
+    grid-row: 1/1;
+    grid-column: 1/1;
+    padding-top: 13px;
+    font-family: var(--font-primary);
+    font-weight: 900;
 }
 
 .products {
@@ -66,48 +107,98 @@ body {
 }
 
 .product {
+    /*
     display: flex;
     flex-direction: column;
     align-items: center;
+    */
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: min-content min-content 50% 1fr;
+    align-items: center;
+    justify-items: center;
     background-color: var(--color-bright);
     width: 22rem;
     height: 32rem;
     padding: 20px;
+    overflow: hidden;
+    transition: all .25s ease-out;
 }
 
-.product__name {
+.product__model {
     width: fit-content;
     order: 0;
-    font-size: 1.6rem;
+    font-family: var(--font-primary);
+    font-size: 1.8rem;
     font-weight: 700;
     text-align: center;
-    margin-bottom: 10px;
 }
 
-.product__description {
+.product__brand {
     font-family: var(--font-secondary);
-    font-weight: 300;
+    font-weight: 400;
     text-align: center;
-    order: 2;
-    padding-bottom: 20px;
+    order: 1;
 }
 
 .product__price {
     order: 3;
-    font-size: 25px;
+    font-size: 17px;
+    font-weight: 700;
 }
 
 .product__img {
     max-width: 100%;
     height: auto;
-    order: 0;
-    margin-bottom: 20px;
+    order: 2;
+    transition: all .3s ease-out;
+}
+
+.product__id, .product__category {
+    display: none;
 }
 
 .product:hover {
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, .5);
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, .25);
+    max-width: 180%;
+    background-color: var(--color-buewater);
+    color: white;
 }
 
-.shopping-cart {
-    background-color: cornflowerblue
+.product:hover img {
+    max-width: 140%;
+}
+
+/* The Modal (background) */
+
+.modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, .4);
+    /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 25vh auto;
+    /* 15% from the top and centered */
+    padding: 20px;
+    width: 50rem;
+    /* Could be more or less, depending on screen size */
 }
