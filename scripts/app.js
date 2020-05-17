@@ -130,16 +130,6 @@ function createProduct(prod) {
   const productElement = document.createElement("div");
   productElement.classList = "product";
 
-  /*
-  const productElement__name = document.createElement("div");
-  productElement__name.classList = "product__name";
-  productElement__name.innerHTML = product.name;
-  
-  const productElement__description = document.createElement("div");
-  productElement__description.classList = "product__description";
-  productElement__description.innerHTML = product.description;
-  */
-
   const productElement__model = document.createElement("div");
   productElement__model.classList = "product__model";
   productElement__model.innerHTML = product.model;
@@ -164,14 +154,21 @@ function createProduct(prod) {
   productElement__category.classList = "product__category";
   productElement__category.dataset.product__category = product.category;
 
+  const productElement__addBtn = document.createElement("div");
+  productElement__addBtn.classList = "product__add-btn";
+  productElement__addBtn.innerHTML = "+";
+
   //productElement.appendChild(productElement__name);
   //productElement.appendChild(productElement__description);
   productElement.appendChild(productElement__model);
   productElement.appendChild(productElement__brand);
   productElement.appendChild(productElement__price);
   productElement.appendChild(productElement__img);
+  productElement.appendChild(productElement__addBtn);
   productElement.appendChild(productElement__id);
+  /*
   productElement.appendChild(productElement__category);
+  */
 
   return productElement;
 }
@@ -186,52 +183,76 @@ function populateUI() {
 
 populateUI();
 
-// WIP Shopping Cart
-document.querySelectorAll(".product").forEach((item) => {
+// ----------- Shopping Cart -----------
+document.querySelectorAll(".product__add-btn").forEach((item) => {
   item.addEventListener("click", addToCart);
 });
 
-console.log(shoppingCartInstance);
+// Creates the HTML for an object in the Shopping Cart
+function createShoppingCartProductHTML(cartProduct) {
+  // --- Create HTML element for product in cart, append it to the shopping cart list ---
+  // Create base div element
+  const shoppingCartProductElement = document.createElement("div");
+  shoppingCartProductElement.classList =
+    "shopping-cart-modal__product-list__product";
 
+  // Create "img" element
+  const shoppingCartProductElement__img = document.createElement("img");
+  shoppingCartProductElement__img.classList =
+    "shopping-cart-modal__product-list__product__img";
+  shoppingCartProductElement__img.src = cartProduct.img;
+
+  // Create "name" element
+  const shoppingCartProductElement__name = document.createElement("div");
+  shoppingCartProductElement__name.classList =
+    "shopping-cart-modal__product-list__product__name";
+  shoppingCartProductElement__name.innerHTML = cartProduct.name;
+
+  // Create "price" element
+  const shoppingCartProductElement__price = document.createElement("div");
+  shoppingCartProductElement__price.classList =
+    "shopping-cart-modal__product-list__product__price";
+  shoppingCartProductElement__price.innerHTML = "$" + cartProduct.price;
+
+  shoppingCartProductElement.appendChild(shoppingCartProductElement__img);
+  shoppingCartProductElement.appendChild(shoppingCartProductElement__name);
+  shoppingCartProductElement.appendChild(shoppingCartProductElement__price);
+
+  return shoppingCartProductElement;
+}
+
+// Gets number of items and total price in Shopping Cart, adds html for products inside the Shopping Cart
 function getShopCartData() {
-  /*
-  const shoppingCart = document.querySelector(".shopping-cart");
-  const cartItems = shoppingCart.querySelector(".shopping-cart__products");
-  const total = shoppingCart.querySelector(".shopping-cart__total");
-
-  
-  shoppingCart.querySelector(".shopping-cart__products").innerHTML = "";
-  for (product of shoppingCartInstance.cartProducts) {
-    let productLi = document.createElement("li");
-    productLi.innerHTML = product.name + " - $" + product.price;
-
-    shoppingCart
-      .querySelector(".shopping-cart__products")
-      .appendChild(productLi);
+  const shoppingCartList = document.querySelector(
+    ".shopping-cart-modal__product-list"
+  );
+  shoppingCartList.innerHTML = "";
+  for (const cartProduct of shoppingCartInstance.cartProducts) {
+    shoppingCartList.appendChild(createShoppingCartProductHTML(cartProduct));
   }
-  shoppingCartInstance.calculateTotal();
-  total.innerHTML = "$" + shoppingCartInstance.total;
-  */
 
-  // Shopping Cart Icon
+  // Updates number of items icon in cart icon
   document.querySelector(
     ".navbar__shoppingCart__number"
   ).innerHTML = shoppingCartInstance.calculateNumberOfItems();
 
+  // Calculates the total in the shopping cart
   shoppingCartInstance.calculateTotal();
-  document.querySelector(".shoppingCart__modal__total").innerHTML =
-    "$" + shoppingCartInstance.total;
+  document.querySelector(
+    ".shopping-cart-modal__content__total__price"
+  ).innerHTML = "$" + shoppingCartInstance.total;
 }
-
+// Calls "getShopCartData" when first loading the page
 getShopCartData();
 
+// Adds clicked product to cart instante, then calls "getShopCartData" so it will be displayed
 function addToCart(e) {
-  // Get the shopping cart HTML element
+  // Get the shopping cart HTML element -- not used--
   const shoppingCart = document.querySelector(".shopping-cart");
 
   // Get the id of the product the user clicked, push item correspoding to id into the cart
-  const selectedProductID = e.target.querySelector(".product__id").dataset
-    .product__id;
+  const selectedProductID = e.target.parentElement.querySelector(".product__id")
+    .dataset.product__id;
   for (item of productDatabase) {
     if (item.id == selectedProductID) {
       shoppingCartInstance.cartProducts.push(item);
@@ -239,31 +260,25 @@ function addToCart(e) {
   }
 
   getShopCartData();
-  console.log(shoppingCartInstance);
 }
 
-// Get the modal
-var modal = document.getElementById("myModal");
+// Gets the Shopping Cart HTML element and calls "openCartModal" when clicked
+document
+  .querySelector(".navbar__shoppingCart")
+  .addEventListener("click", openCartModal);
 
-// Get the button that opens the modal
-var btn = document.querySelector(".navbar__shoppingCart");
+document
+  .querySelector(".shopping-cart-modal")
+  .addEventListener("click", closeShoppingCartModal);
 
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
+function openCartModal(e) {
+  const shoppingCartModal = document.querySelector(".shopping-cart-modal");
+  shoppingCartModal.classList.add("shopping-cart-modal--show");
+}
 
-// When the user clicks on the button, open the modal
-btn.onclick = function () {
-  modal.style.display = "block";
-};
-
-// When the user clicks on <span> (x), close the modal
-span.onclick = function () {
-  modal.style.display = "none";
-};
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function (event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
+function closeShoppingCartModal(e) {
+  const shoppingCartModal = document.querySelector(".shopping-cart-modal");
+  if (e.target === shoppingCartModal) {
+    shoppingCartModal.classList.remove("shopping-cart-modal--show");
   }
-};
+}
