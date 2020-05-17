@@ -12,6 +12,7 @@ html {
     --color-grey-light-1: rgb(233, 233, 233);
     --color-buewater: #31addf;
     --color-buewater-dark: #0592ca;
+    --color-red: #d85b5b;
     --color-purple-dark: #11182e;
     /* Fonts */
     --font-primary: 'Noto Sans JP', sans-serif;
@@ -36,7 +37,7 @@ body {
 
 .navbar {
     display: grid;
-    grid-template-columns: 1fr 1fr min-content;
+    grid-template-columns: 1fr 1fr 15%;
     background-color: var(--color-buewater);
 }
 
@@ -78,7 +79,16 @@ body {
     justify-items: center;
     padding-right: 7rem;
     padding-left: 5rem;
-    padding-bottom: 2rem;
+    padding-bottom: 1rem;
+}
+
+.navbar__shoppingCart__select-area {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    align-items: center;
+    justify-items: center;
+    cursor: pointer;
 }
 
 .navbar__shoppingCart-logo {
@@ -86,25 +96,37 @@ body {
     height: 4rem;
     grid-row: 1/1;
     grid-column: 1/1;
-}
-
-.navbar__shoppingCart-logo:hover span {
-    color: white;
+    user-select: none;
+    transition: all .2s ease-out;
 }
 
 .navbar__shoppingCart__number {
     grid-row: 1/1;
     grid-column: 1/1;
     padding-top: 13px;
+    font-size: 1.3rem;
     font-family: var(--font-primary);
     font-weight: 900;
+    color: var(--color-bright);
+    user-select: none;
+    transition: all .2s ease-out;
+}
+
+.navbar__shoppingCart__select-area:hover .navbar__shoppingCart-logo {
+    width: 4.5rem;
+    height: 4.5rem;
+}
+
+.navbar__shoppingCart__select-area:hover .navbar__shoppingCart__number {
+    font-size: 1.5rem;
 }
 
 .products {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax( 200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(25.5rem, 1fr));
     justify-items: center;
-    gap: 50px;
+    gap: 4rem;
+    padding: 2rem 5rem 5rem 5rem;
 }
 
 .product {
@@ -151,14 +173,17 @@ body {
 .product__price {
     grid-column: 1/2;
     justify-self: start;
+    align-self: end;
     order: 3;
     font-size: 17px;
     font-weight: 700;
 }
 
 .product__img {
+    min-width: auto;
     max-width: 100%;
-    height: auto;
+    min-height: auto;
+    max-height: 100%;
     order: 0;
     grid-column: 1/3;
     transition: all .3s ease-out;
@@ -169,6 +194,7 @@ body {
     grid-row: 4/5;
     display: grid;
     justify-items: center;
+    align-self: end;
     align-items: center;
     font-size: 1.7rem;
     justify-self: end;
@@ -190,11 +216,12 @@ body {
     box-shadow: 0px 0px 30px rgba(0, 0, 0, .25);
     max-width: 180%;
     background-color: var(--color-buewater);
-    color: white;
+    color: var(--color-bright);
 }
 
 .product:hover img {
     max-width: 140%;
+    max-height: 180%;
 }
 
 .product:hover .product__add-btn {
@@ -259,27 +286,80 @@ body {
 
 .shopping-cart-modal__product-list__product {
     display: grid;
-    grid-template-columns: 30% 1fr;
+    grid-template-columns: min-content 30% 1fr min-content;
     grid-template-rows: min-content min-content;
+    gap: 10px;
 }
 
 .shopping-cart-modal__product-list__product__img {
     grid-row: 1/3;
+    grid-column: 2/3;
     align-self: center;
     max-width: 100%;
     height: auto;
 }
 
 .shopping-cart-modal__product-list__product__name {
+    grid-row: 1/2;
+    grid-column: 3/4;
     font-family: var(--font-primary);
     font-weight: 300;
     padding-left: 2rem;
 }
 
 .shopping-cart-modal__product-list__product__price {
+    grid-row: 2/3;
+    grid-column: 3/4;
     font-size: 1.3rem;
     font-weight: 700;
     padding-left: 2rem;
+}
+
+.shopping-cart-modal__product-list__product__remove-btn {
+    grid-column: 4/5;
+    grid-row: 1/2;
+    display: grid;
+    justify-self: center;
+    align-self: flex-start;
+    align-items: center;
+    justify-items: center;
+    padding: 0px 5px;
+    font-weight: 700;
+    font-size: 1rem;
+    background-color: var(--color-red);
+    color: var(--color-bright);
+    transition: all .15s ease-out;
+    cursor: pointer;
+}
+
+.shopping-cart-modal__product-list__product__remove-btn:hover {
+    padding: 0px 8px;
+}
+
+.shopping-cart-modal__product-list__product__qty-selector {
+    grid-row: 1/3;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr repeat(3, 15px) 1fr;
+    justify-items: center;
+    align-items: center;
+    padding-right: 10px;
+}
+
+.shoppingCartProductElement__qty-selector__arrow-up {
+    width: 15px;
+    height: auto;
+    grid-row: 2/3;
+}
+
+.shoppingCartProductElement__qty-selector__arrow-down {
+    width: 100%;
+    height: auto;
+    grid-row: 4/5;
+}
+
+.shoppingCartProductElement__qty-selector__counter {
+    grid-row: 3/4;
 }
 
 .shopping-cart-modal__content__total {

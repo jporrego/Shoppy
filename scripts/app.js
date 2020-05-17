@@ -25,7 +25,7 @@ ShoppingCart.prototype.calculateTotal = function () {
     totalPrice = totalPrice + product.price;
   }
 
-  this.total = totalPrice;
+  this.total = parseFloat(totalPrice.toFixed(2));
 };
 
 ShoppingCart.prototype.calculateNumberOfItems = function () {
@@ -42,14 +42,14 @@ let shoppingCartInstance = new ShoppingCart();
 
 // Testing list of products
 
-// Add a product ID. Products will be stored in this list, then displayed with a function. When an user clicks a product it will reference the object in this list throught the ID.
+// Products will be stored in this list, then displayed with a function. When an user clicks a product it will reference the object in this list throught the ID.
 
 let productDatabase = [
   {
     name: "Ducky Shine 3 Yellow",
     description:
       "Yellow Ducky is a special Shine 3, clad with yellow engraved PBT keycaps with yellow casing.",
-    price: 155.0,
+    price: 155.99,
     img: "../img/product_keyboard_ducky_shine3yellow.png",
     id: 01,
     brand: "Ducky",
@@ -60,7 +60,7 @@ let productDatabase = [
     name: "Ducky Mecha Mini",
     description:
       "The Ducky One 2 Mini Mecha is everything you love about the classic One 2 Mini wrapped in one of the most beautifully balanced frames ever used in a keyboard.",
-    price: 119.0,
+    price: 119.99,
     img: "../img/product_keyboard_ducky_mechamini.png",
     id: 02,
     brand: "Ducky",
@@ -71,7 +71,7 @@ let productDatabase = [
     name: "Varmilo Beijing Opera",
     description:
       "Varmilo keyboard with a traditional Chinese opera design, with red, white and gold accents.",
-    price: 162.0,
+    price: 162.99,
     img: "../img/product_keyboard_varmilo_beijingopera.png",
     id: 03,
     brand: "Varmilo",
@@ -81,7 +81,7 @@ let productDatabase = [
   {
     name: "Varmilo VA87M Radiation",
     description: "Varmilo VA87M Radiation mechanical keyboard with white LEDs.",
-    price: 129.0,
+    price: 129.99,
     img: "../img/product_keyboard_varmilo_radiation.png",
     id: 04,
     brand: "Varmilo",
@@ -89,30 +89,30 @@ let productDatabase = [
     category: "Keyboard",
   },
   {
-    name: "Ducky Mecha Mini",
+    name: "Leopold FC750R Grey/Blue",
     description:
-      "The Ducky One 2 Mini Mecha is everything you love about the classic One 2 Mini wrapped in one of the most beautifully balanced frames ever used in a keyboard.",
-    price: 119.0,
-    img: "../img/product_keyboard_ducky_mechamini.png",
+      "Leopold FC750R Grey/Blue PD TKL Double Shot PBT Mechanical Keyboard.",
+    price: 119.99,
+    img: "../img/product_keyboard_leopold_fc750re.png",
     id: 05,
-    brand: "Ducky",
-    model: "Mecha Mini",
+    brand: "Leopold",
+    model: "FC750R Grey/Blue",
     category: "Keyboard",
   },
   {
-    name: "Varmilo Beijing Opera",
+    name: "Razer Nari Essential Wireless Headset",
     description:
-      "Varmilo keyboard with a traditional Chinese opera design, with red, white and gold accents.",
-    price: 162.0,
-    img: "../img/product_keyboard_varmilo_beijingopera.png",
+      "Razer Nari Essential Wireless THX Spatial Audio Gaming Headset for PC and PlayStation 4.",
+    price: 89.99,
+    img: "../img/product_headset_razer_nariessential.png",
     id: 06,
-    brand: "Varmilo",
-    model: "Beijing Opera",
-    category: "Keyboard",
+    brand: "Razer",
+    model: "Nari Essential",
+    category: "Headset",
   },
 ];
 
-// Product Builder Fucntion, returns a div element of the product in the argument
+// Product Builder Function, returns a div element of the product in the argument
 function createProduct(prod) {
   // Create product object
   const product = new Product(
@@ -200,29 +200,93 @@ function createShoppingCartProductHTML(cartProduct) {
   const shoppingCartProductElement__img = document.createElement("img");
   shoppingCartProductElement__img.classList =
     "shopping-cart-modal__product-list__product__img";
-  shoppingCartProductElement__img.src = cartProduct.img;
+  shoppingCartProductElement__img.src = cartProduct[1].img;
 
   // Create "name" element
   const shoppingCartProductElement__name = document.createElement("div");
   shoppingCartProductElement__name.classList =
     "shopping-cart-modal__product-list__product__name";
-  shoppingCartProductElement__name.innerHTML = cartProduct.name;
+  shoppingCartProductElement__name.innerHTML = cartProduct[1].name;
 
   // Create "price" element
   const shoppingCartProductElement__price = document.createElement("div");
   shoppingCartProductElement__price.classList =
     "shopping-cart-modal__product-list__product__price";
-  shoppingCartProductElement__price.innerHTML = "$" + cartProduct.price;
+  shoppingCartProductElement__price.innerHTML = "$" + cartProduct[1].price;
+
+  // Create remove button element
+  const shoppingCartProductElement__removeBtn = document.createElement("div");
+  shoppingCartProductElement__removeBtn.classList =
+    "shopping-cart-modal__product-list__product__remove-btn";
+  shoppingCartProductElement__removeBtn.innerHTML = "x";
+  shoppingCartProductElement__removeBtn.addEventListener(
+    "click",
+    removeCartItem
+  );
+
+  // Create quantity selector
+  const shoppingCartProductElement__qty = document.createElement("div");
+  shoppingCartProductElement__qty.classList =
+    "shopping-cart-modal__product-list__product__qty-selector";
+  // Increase qty button
+  const shoppingCartProductElement__qty__arrowup = document.createElement(
+    "img"
+  );
+  shoppingCartProductElement__qty__arrowup.classList =
+    "shoppingCartProductElement__qty-selector__arrow-up";
+  shoppingCartProductElement__qty__arrowup.src = "../img/arrUp.png";
+  shoppingCartProductElement__qty__arrowup.addEventListener(
+    "click",
+    increaseQty
+  );
+  //Decrease qty button
+  const shoppingCartProductElement__qty__arrowDown = document.createElement(
+    "img"
+  );
+  shoppingCartProductElement__qty__arrowDown.classList =
+    "shoppingCartProductElement__qty-selector__arrow-down";
+  shoppingCartProductElement__qty__arrowDown.src = "../img/arrDwn.png";
+  shoppingCartProductElement__qty__arrowDown.addEventListener(
+    "click",
+    decreaseQty
+  );
+  // Item qty counter
+  const shoppingCartProductElement__qty__counter = document.createElement(
+    "div"
+  );
+  shoppingCartProductElement__qty__counter.classList =
+    "shoppingCartProductElement__qty-selector__counter";
+  shoppingCartProductElement__qty__counter.innerHTML = cartProduct[0];
+
+  // Appends all elements to qty selector
+  shoppingCartProductElement__qty.appendChild(
+    shoppingCartProductElement__qty__arrowup
+  );
+  shoppingCartProductElement__qty.appendChild(
+    shoppingCartProductElement__qty__counter
+  );
+  shoppingCartProductElement__qty.appendChild(
+    shoppingCartProductElement__qty__arrowDown
+  );
+
+  // Create id dataset
+  const shoppingCartProductElement__id = document.createElement("div");
+  shoppingCartProductElement__id.classList = "product__id";
+  shoppingCartProductElement__id.dataset.product__id = cartProduct.id;
 
   shoppingCartProductElement.appendChild(shoppingCartProductElement__img);
   shoppingCartProductElement.appendChild(shoppingCartProductElement__name);
   shoppingCartProductElement.appendChild(shoppingCartProductElement__price);
+  shoppingCartProductElement.appendChild(shoppingCartProductElement__removeBtn);
+  shoppingCartProductElement.appendChild(shoppingCartProductElement__id);
+  shoppingCartProductElement.appendChild(shoppingCartProductElement__qty);
 
   return shoppingCartProductElement;
 }
 
 // Gets number of items and total price in Shopping Cart, adds html for products inside the Shopping Cart
 function getShopCartData() {
+  // Creates html element for each product in cart, adds it to modal cart list
   const shoppingCartList = document.querySelector(
     ".shopping-cart-modal__product-list"
   );
@@ -255,16 +319,56 @@ function addToCart(e) {
     .dataset.product__id;
   for (item of productDatabase) {
     if (item.id == selectedProductID) {
-      shoppingCartInstance.cartProducts.push(item);
+      let itemCount = 0;
+      if (shoppingCartInstance.cartProducts.length > 0) {
+        for (const product of shoppingCartInstance.cartProducts) {
+          if (product[1].id === item.id) {
+            itemCount++;
+          }
+        }
+      }
+      if (itemCount === 0) {
+        let qtyItemObj = [1, item];
+        shoppingCartInstance.cartProducts.push(qtyItemObj);
+      } else if (itemCount > 0) {
+        for (const product of shoppingCartInstance.cartProducts) {
+          if (product[1].id === item.id) {
+            product[0]++;
+          }
+        }
+      }
+      console.log(shoppingCartInstance.cartProducts);
     }
   }
 
   getShopCartData();
 }
 
+function removeCartItem(e) {
+  console.log(shoppingCartInstance.cartProducts);
+  const productToRemoveId = e.target.parentElement.querySelector(".product__id")
+    .dataset.product__id;
+
+  for (const prod of shoppingCartInstance.cartProducts) {
+    if (prod.id === productToRemoveId) {
+      cartProduct.pop(prod);
+    }
+  }
+  shoppingCartInstance.cartProducts = shoppingCartInstance.cartProducts.filter(
+    (x) => x.id != productToRemoveId
+  );
+
+  console.log(shoppingCartInstance.cartProducts);
+  getShopCartData();
+}
+
+function increaseQty(e) {}
+
+function decreaseQty(e) {}
+
 // Gets the Shopping Cart HTML element and calls "openCartModal" when clicked
 document
-  .querySelector(".navbar__shoppingCart")
+  .querySelector(".navbar__shoppingCart__select-area")
   .addEventListener("click", openCartModal);
 
 document
