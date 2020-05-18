@@ -22,7 +22,7 @@ ShoppingCart.prototype.calculateTotal = function () {
   let totalPrice = 0;
 
   for (product of this.cartProducts) {
-    totalPrice = totalPrice + product.price;
+    totalPrice = totalPrice + product[1].price * product[0];
   }
 
   this.total = parseFloat(totalPrice.toFixed(2));
@@ -32,7 +32,7 @@ ShoppingCart.prototype.calculateNumberOfItems = function () {
   let numItems = 0;
 
   for (product of this.cartProducts) {
-    numItems++;
+    numItems = numItems + product[0];
   }
 
   return numItems;
@@ -272,7 +272,7 @@ function createShoppingCartProductHTML(cartProduct) {
   // Create id dataset
   const shoppingCartProductElement__id = document.createElement("div");
   shoppingCartProductElement__id.classList = "product__id";
-  shoppingCartProductElement__id.dataset.product__id = cartProduct.id;
+  shoppingCartProductElement__id.dataset.product__id = cartProduct[1].id;
 
   shoppingCartProductElement.appendChild(shoppingCartProductElement__img);
   shoppingCartProductElement.appendChild(shoppingCartProductElement__name);
@@ -337,7 +337,6 @@ function addToCart(e) {
           }
         }
       }
-      console.log(shoppingCartInstance.cartProducts);
     }
   }
 
@@ -348,23 +347,46 @@ function removeCartItem(e) {
   console.log(shoppingCartInstance.cartProducts);
   const productToRemoveId = e.target.parentElement.querySelector(".product__id")
     .dataset.product__id;
-
-  for (const prod of shoppingCartInstance.cartProducts) {
-    if (prod.id === productToRemoveId) {
-      cartProduct.pop(prod);
-    }
-  }
+  console.log(productToRemoveId);
   shoppingCartInstance.cartProducts = shoppingCartInstance.cartProducts.filter(
-    (x) => x.id != productToRemoveId
+    (x) => x[1].id != productToRemoveId
   );
 
   console.log(shoppingCartInstance.cartProducts);
   getShopCartData();
 }
 
-function increaseQty(e) {}
+function increaseQty(e) {
+  const productId = e.target.parentElement.parentElement.querySelector(
+    ".product__id"
+  ).dataset.product__id;
 
-function decreaseQty(e) {}
+  for (const product of shoppingCartInstance.cartProducts) {
+    if (product[1].id == productId) {
+      product[0]++;
+    }
+  }
+  getShopCartData();
+}
+
+function decreaseQty(e) {
+  const productId = e.target.parentElement.parentElement.querySelector(
+    ".product__id"
+  ).dataset.product__id;
+
+  for (const product of shoppingCartInstance.cartProducts) {
+    if (product[1].id == productId) {
+      if (product[0] > 1) {
+        product[0]--;
+      } else if (confirm("Do you want to remove this product?")) {
+        shoppingCartInstance.cartProducts = shoppingCartInstance.cartProducts.filter(
+          (x) => x[1].id != productId
+        );
+      }
+    }
+  }
+  getShopCartData();
+}
 
 // Gets the Shopping Cart HTML element and calls "openCartModal" when clicked
 document
