@@ -166,11 +166,95 @@ function createProduct(prod) {
   productElement.appendChild(productElement__img);
   productElement.appendChild(productElement__addBtn);
   productElement.appendChild(productElement__id);
+  productElement.addEventListener("click", productModal);
   /*
   productElement.appendChild(productElement__category);
   */
 
   return productElement;
+}
+
+function productModal(e) {
+  if (e.target.classList != "product__add-btn") {
+    // --- Blur Background ---
+    const background = document.querySelector(".container");
+    background.classList.add("container--blur");
+    // --- ---
+    const mainContainer = document.querySelector(".container");
+    // ------ Get product ID and product ------
+    let clickedProdId;
+    if (e.target.classList != "product") {
+      clickedProdId = e.target.parentElement.querySelector(".product__id")
+        .dataset.product__id;
+    } else {
+      clickedProdId = e.target.querySelector(".product__id").dataset
+        .product__id;
+    }
+    let selectedProduct;
+    for (const prod of productDatabase) {
+      if (prod.id == clickedProdId) {
+        selectedProduct = prod;
+      }
+    }
+
+    // ------ ------
+    const productModalElement = document.createElement("div");
+    productModalElement.classList = "product__modal";
+
+    const productModalContent = document.createElement("div");
+    productModalContent.classList = "product__modal__content";
+
+    // ------ ------
+    const productModalCloseModalBtn = document.createElement("div");
+    productModalCloseModalBtn.classList = "product__modal__close-btn";
+    productModalCloseModalBtn.innerHTML = "x";
+    productModalCloseModalBtn.addEventListener("click", closeProductModal);
+
+    const productModalImage = document.createElement("img");
+    productModalImage.classList = "product__modal__img";
+    productModalImage.src = selectedProduct.img;
+
+    const productModalDescription = document.createElement("div");
+    productModalDescription.classList = "product__modal__description";
+
+    const productModalName = document.createElement("div");
+    productModalName.classList = "product__modal__description__name";
+    productModalName.innerHTML = selectedProduct.name;
+
+    const productModalDetails = document.createElement("div");
+    productModalDetails.classList = "product__modal__description__details";
+    productModalDetails.innerHTML = selectedProduct.description;
+
+    const productModalPrice = document.createElement("div");
+    productModalPrice.classList = "product__modal__description__price";
+    productModalPrice.innerHTML = "$" + selectedProduct.price;
+
+    // ------ ------
+
+    productModalContent.appendChild(productModalImage);
+    productModalContent.appendChild(productModalDescription);
+    productModalContent.appendChild(productModalCloseModalBtn);
+
+    productModalDescription.appendChild(productModalName);
+    productModalDescription.appendChild(productModalDetails);
+    productModalDescription.appendChild(productModalPrice);
+
+    productModalElement.appendChild(productModalContent);
+    productModalElement.addEventListener("click", closeProductModal);
+    mainContainer.appendChild(productModalElement);
+  }
+}
+
+function closeProductModal(e) {
+  // --- Remove Blur ---
+  const background = document.querySelector(".container");
+  background.classList.remove("container--blur");
+  // ---
+  const productModal = document.querySelector(".product__modal");
+  const productModalBtn = document.querySelector(".product__modal__close-btn");
+  if (e.target === productModal || e.target === productModalBtn) {
+    productModal.remove();
+  }
 }
 
 // Function that adds all objects to UI
@@ -218,7 +302,7 @@ function createShoppingCartProductHTML(cartProduct) {
   const shoppingCartProductElement__removeBtn = document.createElement("div");
   shoppingCartProductElement__removeBtn.classList =
     "shopping-cart-modal__product-list__product__remove-btn";
-  shoppingCartProductElement__removeBtn.innerHTML = "x";
+  shoppingCartProductElement__removeBtn.innerHTML = "Remove";
   shoppingCartProductElement__removeBtn.addEventListener(
     "click",
     removeCartItem
