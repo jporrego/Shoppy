@@ -1,4 +1,4 @@
-// Product constructor
+// ------------------------------------- Product constructor -------------------------------------
 
 function Product(name, description, price, img, id, brand, model, category) {
   this.name = name;
@@ -11,7 +11,7 @@ function Product(name, description, price, img, id, brand, model, category) {
   this.category = category;
 }
 
-// Shopping cart constructor
+// ------------------------------------- Shopping cart constructor -------------------------------------
 
 function ShoppingCart() {
   this.total = 0;
@@ -40,7 +40,7 @@ ShoppingCart.prototype.calculateNumberOfItems = function () {
 
 let shoppingCartInstance = new ShoppingCart();
 
-// Testing list of products
+// ------------------------------------- Product Database -------------------------------------
 
 // Products will be stored in this list, then displayed with a function. When an user clicks a product it will reference the object in this list throught the ID.
 
@@ -111,6 +111,8 @@ let productDatabase = [
     category: "Headset",
   },
 ];
+
+// ------------------------------------- Product Builder Function -------------------------------------
 
 // Product Builder Function, returns a div element of the product in the argument
 function createProduct(prod) {
@@ -257,17 +259,17 @@ function closeProductModal(e) {
   }
 }
 
-// Function that adds all objects to UI
+// ------------------------------------- Function that adds all objects to UI -------------------------------------
 function populateUI() {
   for (prod of productDatabase) {
     // Calls "createProduct" on each product of the databse, then appends it to the container
-    document.querySelector(".products").appendChild(createProduct(prod));
+    document.querySelector(".products__list").appendChild(createProduct(prod));
   }
 }
 
 populateUI();
 
-// ----------- Shopping Cart -----------
+// ------------------------------------- Shopping Cart -------------------------------------
 document.querySelectorAll(".product__add-btn").forEach((item) => {
   item.addEventListener("click", addToCart);
 });
@@ -482,6 +484,11 @@ document
   .addEventListener("click", closeShoppingCartModal);
 
 function openCartModal(e) {
+  // --- Blur ---
+  const background = document.querySelector(".container");
+  background.classList.add("container--blur");
+  // ---
+
   const shoppingCartModal = document.querySelector(".shopping-cart-modal");
   shoppingCartModal.classList.add("shopping-cart-modal--show");
 }
@@ -489,6 +496,73 @@ function openCartModal(e) {
 function closeShoppingCartModal(e) {
   const shoppingCartModal = document.querySelector(".shopping-cart-modal");
   if (e.target === shoppingCartModal) {
+    const background = document.querySelector(".container");
+    background.classList.remove("container--blur");
     shoppingCartModal.classList.remove("shopping-cart-modal--show");
   }
 }
+
+// ------------------------------------- Filters -------------------------------------
+function buildCategoryFilter() {
+  const categoryForm = document.querySelector(
+    ".products__filter-left__category__form"
+  );
+
+  let addedCategories = [];
+
+  for (const prod of productDatabase) {
+    if (!addedCategories.includes(prod.brand)) {
+      const item = document.createElement("div");
+      item.classList = "products__filter-left__category__form__item";
+
+      const input = document.createElement("input");
+      input.type = "checkbox";
+      input.id = prod.category + "_category";
+      input.name = prod.category;
+      input.value = prod.category;
+
+      const label = document.createElement("label");
+      label.for = prod.category;
+      label.innerHTML = prod.category;
+
+      item.appendChild(input);
+      item.appendChild(label);
+
+      categoryForm.appendChild(item);
+      addedCategories.push(prod.category);
+    }
+  }
+}
+
+function buildBrandFilter() {
+  const brandForm = document.querySelector(
+    ".products__filter-left__brand__form"
+  );
+
+  let addedBrands = [];
+
+  for (const prod of productDatabase) {
+    if (!addedBrands.includes(prod.brand)) {
+      const item = document.createElement("div");
+      item.classList = "products__filter-left__brand__form__item";
+
+      const input = document.createElement("input");
+      input.type = "checkbox";
+      input.id = prod.brand + "_brand";
+      input.name = prod.brand;
+      input.value = prod.brand;
+
+      const label = document.createElement("label");
+      label.for = prod.brand;
+      label.innerHTML = prod.brand;
+
+      item.appendChild(input);
+      item.appendChild(label);
+
+      brandForm.appendChild(item);
+      addedBrands.push(prod.brand);
+    }
+  }
+}
+
+buildBrandFilter();
