@@ -259,16 +259,6 @@ function closeProductModal(e) {
   }
 }
 
-// ------------------------------------- Function that adds all objects to UI -------------------------------------
-function populateUI() {
-  for (prod of productDatabase) {
-    // Calls "createProduct" on each product of the databse, then appends it to the container
-    document.querySelector(".products__list").appendChild(createProduct(prod));
-  }
-}
-
-populateUI();
-
 // ------------------------------------- Shopping Cart -------------------------------------
 document.querySelectorAll(".product__add-btn").forEach((item) => {
   item.addEventListener("click", addToCart);
@@ -511,7 +501,7 @@ function buildCategoryFilter() {
   let addedCategories = [];
 
   for (const prod of productDatabase) {
-    if (!addedCategories.includes(prod.brand)) {
+    if (!addedCategories.includes(prod.category)) {
       const item = document.createElement("div");
       item.classList = "products__filter-left__category__form__item";
 
@@ -565,4 +555,46 @@ function buildBrandFilter() {
   }
 }
 
-buildBrandFilter();
+// ------------------------------------- Search Bar -------------------------------------
+const searchBar = document.querySelector(".search-bar");
+searchBar.addEventListener("keyup", searchProducts);
+
+function searchProducts(e) {
+  populateUI();
+}
+
+// ------------------------------------- Function that adds all objects to UI -------------------------------------
+function populateUI() {
+  console.log(searchBar.value);
+  document.querySelector(".products__list").innerHTML = "";
+
+  if (searchBar.value === "") {
+    for (prod of productDatabase) {
+      // Calls "createProduct" on each product of the databse, then appends it to the container
+      document
+        .querySelector(".products__list")
+        .appendChild(createProduct(prod));
+    }
+  } else {
+    for (prod of productDatabase) {
+      // Calls "createProduct" on each product of the databse, then appends it to the container
+      if (
+        prod.brand.toLowerCase().includes(searchBar.value.toLowerCase()) ||
+        prod.category.toLowerCase().includes(searchBar.value.toLowerCase()) ||
+        prod.model.toLowerCase().includes(searchBar.value.toLowerCase())
+      ) {
+        document
+          .querySelector(".products__list")
+          .appendChild(createProduct(prod));
+      }
+    }
+  }
+}
+
+function runTimeFunctions() {
+  buildCategoryFilter();
+  buildBrandFilter();
+  populateUI();
+}
+
+runTimeFunctions();
