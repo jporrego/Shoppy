@@ -110,6 +110,28 @@ let productDatabase = [
     model: "Nari Essential",
     category: "Headset",
   },
+  {
+    name: "HyperX Cloud Alpha Pro Gaming Headset",
+    description:
+      "The Cloud Alpha headset builds upon HyperX’s foundation of signature award-winning comfort with premium red memory foam, expanded headband and softer, more pliable leatherette.",
+    price: 99.99,
+    img: "../img/product_headset_hyperx_cloudalpha.png",
+    id: 07,
+    brand: "HyperX",
+    model: "HyperX Cloud Alpha",
+    category: "Headset",
+  },
+  {
+    name: "SteelSeries Arctis Pro Wireless Headset",
+    description:
+      "The Arctis Pro headset features premium speaker drivers with high-density neodymium magnets that reproduce Hi-Res audio out to 40,000 Hz.",
+    price: 0.99,
+    img: "../img/product_headset_steelseries_arctisprowireless.png",
+    id: 08,
+    brand: "SteelSeries",
+    model: "Arctis Pro Wireless",
+    category: "Headset",
+  },
 ];
 
 // ------------------------------------- Product Builder Function -------------------------------------
@@ -248,14 +270,14 @@ function productModal(e) {
 }
 
 function closeProductModal(e) {
-  // --- Remove Blur ---
-  const background = document.querySelector(".container");
-  background.classList.remove("container--blur");
   // ---
   const productModal = document.querySelector(".product__modal");
   const productModalBtn = document.querySelector(".product__modal__close-btn");
   if (e.target === productModal || e.target === productModalBtn) {
     productModal.remove();
+    // --- Remove Blur ---
+    const background = document.querySelector(".container");
+    background.classList.remove("container--blur");
   }
 }
 
