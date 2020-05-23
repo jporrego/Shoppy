@@ -125,12 +125,56 @@ let productDatabase = [
     name: "SteelSeries Arctis Pro Wireless Headset",
     description:
       "The Arctis Pro headset features premium speaker drivers with high-density neodymium magnets that reproduce Hi-Res audio out to 40,000 Hz.",
-    price: 0.99,
+    price: 329.99,
     img: "../img/product_headset_steelseries_arctisprowireless.png",
     id: 08,
     brand: "SteelSeries",
     model: "Arctis Pro Wireless",
     category: "Headset",
+  },
+  {
+    name: "Recon 200 Headset",
+    description:
+      "Louder is better! Immerse yourself in your Xbox One and PS4™ games with the Turtle Beach® Recon 200’s powerful amplified audio with Bass Boost.",
+    price: 59.99,
+    img: "../img/product_headset_turtlebeach_recon200.png",
+    id: 09,
+    brand: "Turtle Beach",
+    model: "Recon 200",
+    category: "Headset",
+  },
+  {
+    name: "Elite Atlas Aero Wireless PC Gaming Headset",
+    description:
+      "The Turtle Beach® Elite Atlas Aero is the ultimate high-performance wireless headset for PC gamers and streamers with customizable audio and unmatched comfort.",
+    price: 149.99,
+    img: "../img/product_headset_turtlebeach_eliteatlasaerowireless.png",
+    id: 10,
+    brand: "Turtle Beach",
+    model: "Elite Atlas Aero Wireless",
+    category: "Headset",
+  },
+  {
+    name: "Razer DeathAdder Elite Gaming Mouse",
+    description:
+      "Equipped with the new esports-grade 16,000 DPI optical sensor and true tracking at 450 Inches Per Second (IPS), the Razer DeathAdder Elite ergonomic mouse gives you the absolute advantage.",
+    price: 69.99,
+    img: "../img/product_headset_razer_deathadderelite.png",
+    id: 11,
+    brand: "Razer",
+    model: "DeathAdder Elite",
+    category: "Mouse",
+  },
+  {
+    name: 'ASUS ROG Swift PG279Q Black 27"',
+    description:
+      "The ASUS PG279Q 27-inch monitor boasts stunning 2560 x 1440 resolution and the Republic of Gamers designation, so you know it was built with gamers in mind.",
+    price: 899.99,
+    img: "../img/product_headset_asus_pg279q.png",
+    id: 12,
+    brand: "ASUS",
+    model: 'ROG Swift PG279Q 27"',
+    category: "Monitor",
   },
 ];
 
