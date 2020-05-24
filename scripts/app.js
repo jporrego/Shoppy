@@ -226,14 +226,18 @@ function createProduct(prod) {
   productElement__addBtn.classList = "product__add-btn";
   productElement__addBtn.innerHTML = "+";
 
+  const productElement__infoContainer = document.createElement("div");
+  productElement__infoContainer.classList = "product__info-container";
+
   //productElement.appendChild(productElement__name);
   //productElement.appendChild(productElement__description);
-  productElement.appendChild(productElement__model);
-  productElement.appendChild(productElement__brand);
-  productElement.appendChild(productElement__price);
+  productElement__infoContainer.appendChild(productElement__model);
+  productElement__infoContainer.appendChild(productElement__brand);
+  productElement__infoContainer.appendChild(productElement__price);
   productElement.appendChild(productElement__img);
-  productElement.appendChild(productElement__addBtn);
+  productElement__infoContainer.appendChild(productElement__addBtn);
   productElement.appendChild(productElement__id);
+  productElement.appendChild(productElement__infoContainer);
   productElement.addEventListener("click", productModal);
   /*
   productElement.appendChild(productElement__category);
@@ -457,8 +461,9 @@ function addToCart(e) {
   const shoppingCart = document.querySelector(".shopping-cart");
 
   // Get the id of the product the user clicked, push item correspoding to id into the cart
-  const selectedProductID = e.target.parentElement.querySelector(".product__id")
-    .dataset.product__id;
+  const selectedProductID = e.target.parentElement.parentElement.querySelector(
+    ".product__id"
+  ).dataset.product__id;
   for (item of productDatabase) {
     if (item.id == selectedProductID) {
       let itemCount = 0;
