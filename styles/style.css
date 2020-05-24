@@ -12,6 +12,7 @@ html {
     --color-text-light: #7a7a7a;
     --color-text-bright: #fefefe;
     --color-grey: #f6f6f6;
+    --color-grey-darker: #ebebeb;
     --color-red: #fe5858;
     --color-bg: #ffffff;
     /* Fonts */
@@ -199,7 +200,7 @@ body {
     grid-row: 3/4;
     display: grid;
     grid-template-columns: 18rem 1fr;
-    grid-template-rows: 4rem 1fr;
+    grid-template-rows: 4rem 1fr 3.5rem;
     background-color: var(--color-grey);
     padding-top: 3rem;
 }
@@ -424,6 +425,72 @@ body {
     width: 35px;
     height: 35px;
     box-shadow: 0px 3px 5px rgba(0, 0, 0, .3);
+}
+
+.products__pagination {
+    grid-column: 2/3;
+    grid-row: 3/4;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    background-color: var(--color-bg);
+    padding-bottom: .7rem;
+    font-family: var(--font-primary);
+    font-size: 1.5rem;
+    color: var(--color-text);
+}
+
+.products__pagination__back {
+    order: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 1rem;
+    background-color: var(--color-grey);
+    cursor: pointer;
+}
+
+.products__pagination__forward {
+    order: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 1rem;
+    background-color: var(--color-grey);
+    cursor: pointer;
+}
+
+.products__pagination--disabled {
+    color: var(--color-text-light);
+    background-color: var(--color-grey-darker);
+}
+
+.products__pagination__selectors {
+    order: 1;
+    display: flex;
+    background-color: var(--color-grey);
+}
+
+.products__pagination__selectors__number {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 1rem;
+    cursor: pointer;
+}
+
+.products__pagination__selectors__number--selected {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 1rem;
+    cursor: pointer;
+    background-color: var(--color-red);
+    color: var(--color-text-bright);
+}
+
+.products__pagination__selectors__number:hover, .products__pagination__back:hover, .products__pagination__forward:hover {
+    background-color: var(--color-grey-darker);
 }
 
 /* Modal Content/Box */

@@ -563,6 +563,71 @@ function closeShoppingCartModal(e) {
   }
 }
 
+// ------------------------------------- Pagination -------------------------------------
+function goToProductPage(e, num) {
+  const pagSelectors = document.querySelector(
+    ".products__pagination__selectors"
+  );
+  for (const item of pagSelectors.children) {
+    item.classList = "products__pagination__selectors__number";
+  }
+
+  if (e != undefined) {
+    e.target.classList = "products__pagination__selectors__number--selected";
+  }
+
+  if (num != undefined) {
+    for (const item of pagSelectors.children) {
+      if (parseInt(item.innerHTML) === num + 1) {
+        console.log(item);
+        item.classList = "products__pagination__selectors__number--selected";
+      }
+    }
+  }
+}
+
+function buildPagination(prodList) {
+  const numPages = [1];
+
+  for (const prod of prodList) {
+    if (!numPages.includes(prod[0])) {
+      numPages.push(prod[0]);
+    }
+  }
+
+  for (const num of numPages) {
+    const pagNumber = document.createElement("div");
+    if (num === 1) {
+      pagNumber.classList = "products__pagination__selectors__number--selected";
+    } else {
+      pagNumber.classList = "products__pagination__selectors__number";
+    }
+
+    pagNumber.innerHTML = num;
+    pagNumber.addEventListener("click", goToProductPage);
+
+    document
+      .querySelector(".products__pagination__selectors")
+      .appendChild(pagNumber);
+  }
+  console.log(numPages);
+}
+
+document
+  .querySelector(".products__pagination__forward")
+  .addEventListener("click", goForward);
+
+function goForward(e) {
+  let currentPage;
+  for (const item of e.target.parentElement.querySelector(
+    ".products__pagination__selectors"
+  ).children) {
+    if (item.classList == "products__pagination__selectors__number--selected") {
+      currentPage = parseInt(item.innerHTML);
+    }
+  }
+  goToProductPage(undefined, currentPage);
+}
 // ------------------------------------- Filters -------------------------------------
 function buildCategoryFilter() {
   const categoryForm = document.querySelector(
@@ -687,14 +752,29 @@ function searchProducts(e) {
 function populateUI(filter) {
   document.querySelector(".products__list").innerHTML = "";
   const filteredProducts = filter;
+  const finalOrderedProductList = [];
 
   if (searchBar.value === "" && filter === undefined) {
+    // Adds each prod of the database to a final list, which adds an index to each product in order to be able to have multiple prod. pages
+    let i = 0;
+    let position = 1;
     for (prod of productDatabase) {
-      // Calls "createProduct" on each product of the databse, then appends it to the container
+      finalOrderedProductList.push([position, prod]);
+      if (i === 4) {
+        position++;
+        i = -1;
+      }
+      i++;
+    }
+
+    buildPagination(finalOrderedProductList);
+    // Calls "createProduct" on each product of the final filtered, ordered list, then appends it to the container
+    for (item of finalOrderedProductList) {
       document
         .querySelector(".products__list")
-        .appendChild(createProduct(prod));
+        .appendChild(createProduct(item[1]));
     }
+    console.log(finalOrderedProductList);
   } else {
     for (const prod of filter) {
       // Calls "createProduct" on each product of the databse, then appends it to the container
