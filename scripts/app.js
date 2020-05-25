@@ -579,11 +579,12 @@ function goToProductPage(e, num) {
   if (num != undefined) {
     for (const item of pagSelectors.children) {
       if (parseInt(item.innerHTML) === num + 1) {
-        console.log(item);
         item.classList = "products__pagination__selectors__number--selected";
       }
     }
   }
+  checkSelected();
+  populateUI(undefined, false);
 }
 
 function buildPagination(prodList) {
@@ -610,7 +611,8 @@ function buildPagination(prodList) {
       .querySelector(".products__pagination__selectors")
       .appendChild(pagNumber);
   }
-  console.log(numPages);
+
+  checkSelected();
 }
 
 document
@@ -618,15 +620,65 @@ document
   .addEventListener("click", goForward);
 
 function goForward(e) {
+  let pagSelectors = e.target.parentElement.querySelector(
+    ".products__pagination__selectors"
+  ).children;
   let currentPage;
   for (const item of e.target.parentElement.querySelector(
     ".products__pagination__selectors"
   ).children) {
     if (item.classList == "products__pagination__selectors__number--selected") {
-      currentPage = parseInt(item.innerHTML);
+      if (parseInt(item.innerHTML) == pagSelectors.length) {
+        return;
+      } else {
+        currentPage = parseInt(item.innerHTML);
+      }
     }
   }
   goToProductPage(undefined, currentPage);
+}
+
+document
+  .querySelector(".products__pagination__back")
+  .addEventListener("click", goBackwards);
+
+function goBackwards(e) {
+  let currentPage;
+  for (const item of e.target.parentElement.querySelector(
+    ".products__pagination__selectors"
+  ).children) {
+    if (item.classList == "products__pagination__selectors__number--selected") {
+      if (item.innerHTML == 1) {
+        return;
+      } else {
+        currentPage = parseInt(item.innerHTML) - 2;
+      }
+    }
+  }
+  goToProductPage(undefined, currentPage);
+}
+
+function checkSelected() {
+  let pagSelectors = document.querySelector(".products__pagination__selectors")
+    .children;
+  const backwardBtn = document.querySelector("#products__pagination__backward");
+  const forwardBtn = document.querySelector("#products__pagination__forward");
+
+  backwardBtn.classList = "products__pagination__back";
+  forwardBtn.classList = "products__pagination__forward";
+
+  for (const selector of pagSelectors) {
+    if (
+      selector.classList == "products__pagination__selectors__number--selected"
+    ) {
+      if (selector.innerHTML == 1) {
+        backwardBtn.classList.add("products__pagination--disabled");
+      }
+      if (selector.innerHTML == pagSelectors.length) {
+        forwardBtn.classList.add("products__pagination--disabled");
+      }
+    }
+  }
 }
 // ------------------------------------- Filters -------------------------------------
 function buildCategoryFilter() {
@@ -749,7 +801,7 @@ function searchProducts(e) {
 }
 
 // ------------------------------------- Function that adds all objects to UI -------------------------------------
-function populateUI(filter) {
+function populateUI(filter, rebuildPag) {
   document.querySelector(".products__list").innerHTML = "";
   const filteredProducts = filter;
   const finalOrderedProductList = [];
@@ -766,13 +818,20 @@ function populateUI(filter) {
       }
       i++;
     }
+    if (rebuildPag == undefined) {
+      buildPagination(finalOrderedProductList);
+    }
 
-    buildPagination(finalOrderedProductList);
     // Calls "createProduct" on each product of the final filtered, ordered list, then appends it to the container
     for (item of finalOrderedProductList) {
-      document
-        .querySelector(".products__list")
-        .appendChild(createProduct(item[1]));
+      let currentPage = document.querySelector(
+        ".products__pagination__selectors__number--selected"
+      );
+      if (item[0] == currentPage.innerHTML) {
+        document
+          .querySelector(".products__list")
+          .appendChild(createProduct(item[1]));
+      }
     }
     console.log(finalOrderedProductList);
   } else {

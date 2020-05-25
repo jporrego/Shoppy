@@ -9,10 +9,10 @@ html {
     font-size: 62.5%;
     /* Colors */
     --color-text: #1a1a1a;
-    --color-text-light: #7a7a7a;
+    --color-text-light: #aaaaaa;
     --color-text-bright: #fefefe;
     --color-grey: #f6f6f6;
-    --color-grey-darker: #ebebeb;
+    --color-grey-darker: #dfdfdf;
     --color-red: #fe5858;
     --color-bg: #ffffff;
     /* Fonts */
@@ -448,6 +448,7 @@ body {
     padding: 0 1rem;
     background-color: var(--color-grey);
     cursor: pointer;
+    user-select: none;
 }
 
 .products__pagination__forward {
@@ -458,6 +459,7 @@ body {
     padding: 0 1rem;
     background-color: var(--color-grey);
     cursor: pointer;
+    user-select: none;
 }
 
 .products__pagination--disabled {
