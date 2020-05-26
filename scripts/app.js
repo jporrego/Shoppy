@@ -57,6 +57,17 @@ let productDatabase = [
     category: "Keyboard",
   },
   {
+    name: "Ducky Shine 3 Yellow",
+    description:
+      "Yellow Ducky is a special Shine 3, clad with yellow engraved PBT keycaps with yellow casing.",
+    price: 155.99,
+    img: "../img/product_keyboard_ducky_shine3yellow.png",
+    id: 01,
+    brand: "Ducky",
+    model: "Shine 3 Yellow",
+    category: "Keyboard",
+  },
+  {
     name: "Ducky Mecha Mini",
     description:
       "The Ducky One 2 Mini Mecha is everything you love about the classic One 2 Mini wrapped in one of the most beautifully balanced frames ever used in a keyboard.",
@@ -565,6 +576,7 @@ function closeShoppingCartModal(e) {
 
 // ------------------------------------- Pagination -------------------------------------
 function goToProductPage(e, num) {
+  let pageNum;
   const pagSelectors = document.querySelector(
     ".products__pagination__selectors"
   );
@@ -574,20 +586,24 @@ function goToProductPage(e, num) {
 
   if (e != undefined) {
     e.target.classList = "products__pagination__selectors__number--selected";
+    pageNum = e.target.innerHTML;
   }
 
   if (num != undefined) {
     for (const item of pagSelectors.children) {
       if (parseInt(item.innerHTML) === num + 1) {
         item.classList = "products__pagination__selectors__number--selected";
+        pageNum = item.innerHTML;
       }
     }
   }
   checkSelected();
-  populateUI(undefined, false);
+  paginationPopulation(pageNum, currentFilteredProdList);
 }
 
 function buildPagination(prodList) {
+  document.querySelector(".products__pagination__selectors").innerHTML = "";
+
   const numPages = [1];
 
   for (const prod of prodList) {
@@ -745,6 +761,8 @@ function buildBrandFilter() {
   }
 }
 
+window.currentFilteredProdList = productDatabase;
+
 function buildFilteredProductList(e) {
   const filteredProductsList = [];
   const filterCategory = [];
@@ -789,6 +807,7 @@ function buildFilteredProductList(e) {
       filteredProductsList.push(prod);
     }
   }
+  currentFilteredProdList = filteredProductsList;
   populateUI(filteredProductsList);
 }
 
@@ -801,9 +820,10 @@ function searchProducts(e) {
 }
 
 // ------------------------------------- Function that adds all objects to UI -------------------------------------
-function populateUI(filter, rebuildPag) {
+function populateUI(filter) {
   document.querySelector(".products__list").innerHTML = "";
   const filteredProducts = filter;
+  const tempProductList = [];
   const finalOrderedProductList = [];
 
   if (searchBar.value === "" && filter === undefined) {
@@ -818,9 +838,7 @@ function populateUI(filter, rebuildPag) {
       }
       i++;
     }
-    if (rebuildPag == undefined) {
-      buildPagination(finalOrderedProductList);
-    }
+    buildPagination(finalOrderedProductList);
 
     // Calls "createProduct" on each product of the final filtered, ordered list, then appends it to the container
     for (item of finalOrderedProductList) {
@@ -843,20 +861,87 @@ function populateUI(filter, rebuildPag) {
           prod.category.toLowerCase().includes(searchBar.value.toLowerCase()) ||
           prod.model.toLowerCase().includes(searchBar.value.toLowerCase())
         ) {
-          document
-            .querySelector(".products__list")
-            .appendChild(createProduct(prod));
+          tempProductList.push(prod);
         }
       } else {
-        document
-          .querySelector(".products__list")
-          .appendChild(createProduct(prod));
+        tempProductList.push(prod);
       }
     }
+
+    let i = 0;
+    let position = 1;
+    for (const prod of tempProductList) {
+      finalOrderedProductList.push([position, prod]);
+      if (i === 4) {
+        position++;
+        i = -1;
+      }
+      i++;
+    }
+    for (const item of finalOrderedProductList) {
+      let currentPage = document.querySelector(
+        ".products__pagination__selectors__number--selected"
+      );
+      if (item[0] == currentPage.innerHTML) {
+        document
+          .querySelector(".products__list")
+          .appendChild(createProduct(item[1]));
+      }
+    }
+    buildPagination(finalOrderedProductList);
   }
   document.querySelectorAll(".product__add-btn").forEach((item) => {
     item.addEventListener("click", addToCart);
   });
+}
+
+function paginationPopulation(pageNum, filteredProducts) {
+  const prodList = document.querySelector(".products__list");
+  const products = prodList.children;
+  const finalOrderedProductList = [];
+
+  prodList.innerHTML = "";
+
+  if (filteredProducts.length === productDatabase.length) {
+    let i = 0;
+    let position = 1;
+    for (const prod of productDatabase) {
+      finalOrderedProductList.push([position, prod]);
+      if (i === 4) {
+        position++;
+        i = -1;
+      }
+      i++;
+    }
+
+    for (const prod of finalOrderedProductList) {
+      if (prod[0] == pageNum) {
+        document
+          .querySelector(".products__list")
+          .appendChild(createProduct(prod[1]));
+      }
+    }
+  } else {
+    let i = 0;
+    let position = 1;
+    for (const prod of filteredProducts) {
+      finalOrderedProductList.push([position, prod]);
+      console.log(prod);
+      if (i === 4) {
+        position++;
+        i = -1;
+      }
+      i++;
+    }
+
+    for (const prod of finalOrderedProductList) {
+      if (prod[0] == pageNum) {
+        document
+          .querySelector(".products__list")
+          .appendChild(createProduct(prod[1]));
+      }
+    }
+  }
 }
 
 function runTimeFunctions() {
