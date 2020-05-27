@@ -563,7 +563,6 @@ function closeShoppingCartModal(e) {
 
 // ------------------------------------- Pagination -------------------------------------
 function goToProductPage(e, num) {
-  let pageNum;
   const pagSelectors = document.querySelector(
     ".products__pagination__selectors"
   );
@@ -573,19 +572,22 @@ function goToProductPage(e, num) {
 
   if (e != undefined) {
     e.target.classList = "products__pagination__selectors__number--selected";
-    pageNum = e.target.innerHTML;
   }
 
   if (num != undefined) {
     for (const item of pagSelectors.children) {
       if (parseInt(item.innerHTML) === num + 1) {
         item.classList = "products__pagination__selectors__number--selected";
-        pageNum = item.innerHTML;
       }
     }
   }
   checkSelected();
-  paginationPopulation(pageNum, currentFilteredProdList);
+
+  if (searchProdList.length === 0) {
+    populateUI(orderFilteredProdList(currentProdList));
+  } else {
+    populateUI(orderFilteredProdList(searchProdList));
+  }
 }
 
 function buildPagination(prodList) {
@@ -614,9 +616,6 @@ function buildPagination(prodList) {
       .querySelector(".products__pagination__selectors")
       .appendChild(pagNumber);
   }
-
-  checkSelected();
-  goToProductPage(undefined, 0);
 }
 
 document
@@ -702,7 +701,7 @@ function buildCategoryFilter() {
       input.id = prod.category + "_category";
       input.name = prod.category;
       input.value = prod.category;
-      input.addEventListener("click", buildFilteredProductList);
+      input.addEventListener("click", filterProducts);
 
       const label = document.createElement("label");
       label.for = prod.category;
@@ -734,7 +733,7 @@ function buildBrandFilter() {
       input.id = prod.brand + "_brand";
       input.name = prod.brand;
       input.value = prod.brand;
-      input.addEventListener("click", buildFilteredProductList);
+      input.addEventListener("click", filterProducts);
 
       const label = document.createElement("label");
       label.for = prod.brand;
@@ -749,7 +748,8 @@ function buildBrandFilter() {
   }
 }
 
-window.currentFilteredProdList = productDatabase;
+window.currentProdList = productDatabase;
+window.searchProdList = [];
 
 function buildFilteredProductList(e) {
   const filteredProductsList = [];
@@ -795,8 +795,31 @@ function buildFilteredProductList(e) {
       filteredProductsList.push(prod);
     }
   }
-  currentFilteredProdList = filteredProductsList;
-  populateUI(filteredProductsList);
+  currentProdList = filteredProductsList;
+}
+
+function orderFilteredProdList(prodList) {
+  const finalOrderedProductList = [];
+  let i = 0;
+  let position = 1;
+  for (prod of prodList) {
+    finalOrderedProductList.push([position, prod]);
+    if (i === 4) {
+      position++;
+      i = -1;
+    }
+    i++;
+  }
+
+  return finalOrderedProductList;
+}
+
+function filterProducts() {
+  searchProdList = [];
+  buildFilteredProductList();
+  buildPagination(orderFilteredProdList(currentProdList));
+  goToProductPage(undefined, 0);
+  populateUI(orderFilteredProdList(currentProdList));
 }
 
 // ------------------------------------- Search Bar -------------------------------------
@@ -804,68 +827,46 @@ const searchBar = document.querySelector(".search-bar");
 searchBar.addEventListener("keyup", searchProducts);
 
 function searchProducts(e) {
-  populateUI(currentFilteredProdList);
+  if (searchBar.value == "") {
+    filterProducts();
+  } else {
+    searchProductList(currentProdList);
+    buildPagination(orderFilteredProdList(searchProdList));
+    goToProductPage(undefined, 0);
+    checkSelected();
+    populateUI(orderFilteredProdList(searchProdList));
+  }
+}
+
+function searchProductList(currentProdList) {
+  const currentSearchProdList = [];
+
+  for (const prod of currentProdList) {
+    if (
+      prod.brand.toLowerCase().includes(searchBar.value.toLowerCase()) ||
+      prod.category.toLowerCase().includes(searchBar.value.toLowerCase()) ||
+      prod.model.toLowerCase().includes(searchBar.value.toLowerCase())
+    ) {
+      currentSearchProdList.push(prod);
+    }
+  }
+  searchProdList = currentSearchProdList;
+  console.log(searchProdList);
 }
 
 // ------------------------------------- Function that adds all objects to UI -------------------------------------
-function populateUI(filter) {
+function populateUI(prodList) {
   document.querySelector(".products__list").innerHTML = "";
-  const filteredProducts = filter;
-  const tempProductList = [];
-  const finalOrderedProductList = [];
-
-  if (searchBar.value === "" && filter === undefined) {
-    // Adds each prod of the database to a final list, which adds an index to each product in order to be able to have multiple prod. pages
-    let i = 0;
-    let position = 1;
-    for (prod of productDatabase) {
-      finalOrderedProductList.push([position, prod]);
-      if (i === 4) {
-        position++;
-        i = -1;
-      }
-      i++;
-    }
-    buildPagination(finalOrderedProductList);
-
-    // Calls "createProduct" on each product of the final filtered, ordered list, then appends it to the container
-  } else {
-    for (const prod of filter) {
-      // Calls "createProduct" on each product of the databse, then appends it to the container
-      if (searchBar.value != "") {
-        if (
-          prod.brand.toLowerCase().includes(searchBar.value.toLowerCase()) ||
-          prod.category.toLowerCase().includes(searchBar.value.toLowerCase()) ||
-          prod.model.toLowerCase().includes(searchBar.value.toLowerCase())
-        ) {
-          tempProductList.push(prod);
-        }
-      } else {
-        tempProductList.push(prod);
-      }
-      console.log(tempProductList);
-
-      let i = 0;
-      let position = 1;
-      for (const prod of tempProductList) {
-        finalOrderedProductList.push([position, prod]);
-        if (i === 4) {
-          position++;
-          i = -1;
-        }
-        i++;
-      }
-      for (const item of finalOrderedProductList) {
-        let currentPage = document.querySelector(
-          ".products__pagination__selectors__number--selected"
-        );
-        if (item[0] == currentPage.innerHTML) {
-          document
-            .querySelector(".products__list")
-            .appendChild(createProduct(item[1]));
-        }
-      }
-      buildPagination(finalOrderedProductList);
+  for (const prod of prodList) {
+    if (
+      prod[0] ==
+      document.querySelector(
+        ".products__pagination__selectors__number--selected"
+      ).innerHTML
+    ) {
+      document
+        .querySelector(".products__list")
+        .appendChild(createProduct(prod[1]));
     }
   }
 }
@@ -922,7 +923,7 @@ function paginationPopulation(pageNum, filteredProducts) {
 function runTimeFunctions() {
   buildCategoryFilter();
   buildBrandFilter();
-  populateUI();
+  filterProducts();
 }
 
 runTimeFunctions();
