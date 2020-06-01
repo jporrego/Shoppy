@@ -166,12 +166,34 @@ let productDatabase = [
     category: "Mouse",
   },
   {
+    name: "Logitech G203 Prodigy",
+    description:
+      "Play faster and more accurately than ever before. With gaming-grade performance, you can target more precisely, maneuver more quickly and dominate more opponents.",
+    price: 32.99,
+    img: "../img/product_headset_logitech_g203prodigy.png",
+    id: 12,
+    brand: "Logitech",
+    model: "G203 Prodigy",
+    category: "Mouse",
+  },
+  {
+    name: "Corsair Nightsword",
+    description:
+      "The CORSAIR NIGHTSWORD RGB PerformanceTunable Gaming Mouse is equipped with a cutting-edge 18,000 DPI optical sensor, sophisticated weight calibration and a real-time center of gravity detection system.",
+    price: 79.99,
+    img: "../img/product_mouse_corsair_nightsword.png",
+    id: 13,
+    brand: "Corsair",
+    model: "Nightsword",
+    category: "Mouse",
+  },
+  {
     name: 'ASUS ROG Swift PG279Q Black 27"',
     description:
       "The ASUS PG279Q 27-inch monitor boasts stunning 2560 x 1440 resolution and the Republic of Gamers designation, so you know it was built with gamers in mind.",
     price: 899.99,
     img: "../img/product_headset_asus_pg279q.png",
-    id: 12,
+    id: 14,
     brand: "ASUS",
     model: 'ROG Swift PG279Q 27"',
     category: "Monitor",
@@ -248,7 +270,10 @@ function createProduct(prod) {
 }
 
 function productModal(e) {
-  if (e.target.classList != "product__add-btn") {
+  if (
+    e.target.classList != "product__add-btn" &&
+    e.target.classList != "product__add-btn--green"
+  ) {
     // --- Blur Background ---
     const background = document.querySelector(".container");
     background.classList.add("container--blur");
@@ -302,6 +327,15 @@ function productModal(e) {
     productModalPrice.classList = "product__modal__description__price";
     productModalPrice.innerHTML = "$" + selectedProduct.price;
 
+    const productModalAddBtn = document.createElement("div");
+    productModalAddBtn.classList = "product__modal__add-btn";
+    productModalAddBtn.innerHTML = "Add to cart";
+    productModalAddBtn.addEventListener("click", addToCartFromModal);
+
+    const product__id = document.createElement("div");
+    product__id.classList = "product__id";
+    product__id.dataset.product__id = clickedProdId;
+
     // ------ ------
 
     productModalContent.appendChild(productModalImage);
@@ -311,8 +345,10 @@ function productModal(e) {
     productModalDescription.appendChild(productModalName);
     productModalDescription.appendChild(productModalDetails);
     productModalDescription.appendChild(productModalPrice);
+    productModalDescription.appendChild(productModalAddBtn);
 
     productModalElement.appendChild(productModalContent);
+    productModalContent.appendChild(product__id);
     productModalElement.addEventListener("click", closeProductModal);
     mainContainer.appendChild(productModalElement);
   }
@@ -455,37 +491,91 @@ getShopCartData();
 
 // Adds clicked product to cart instante, then calls "getShopCartData" so it will be displayed
 function addToCart(e) {
-  // Get the shopping cart HTML element -- not used--
-  const shoppingCart = document.querySelector(".shopping-cart");
-
   // Get the id of the product the user clicked, push item correspoding to id into the cart
-  const selectedProductID = e.target.parentElement.parentElement.querySelector(
-    ".product__id"
-  ).dataset.product__id;
-  for (item of productDatabase) {
-    if (item.id == selectedProductID) {
-      let itemCount = 0;
-      if (shoppingCartInstance.cartProducts.length > 0) {
-        for (const product of shoppingCartInstance.cartProducts) {
-          if (product[1].id === item.id) {
-            itemCount++;
+  if (e.target.classList == "product__add-btn") {
+    const selectedProductID = e.target.parentElement.parentElement.querySelector(
+      ".product__id"
+    ).dataset.product__id;
+    for (item of productDatabase) {
+      if (item.id == selectedProductID) {
+        let itemCount = 0;
+        if (shoppingCartInstance.cartProducts.length > 0) {
+          for (const product of shoppingCartInstance.cartProducts) {
+            if (product[1].id === item.id) {
+              itemCount++;
+            }
           }
         }
-      }
-      if (itemCount === 0) {
-        let qtyItemObj = [1, item];
-        shoppingCartInstance.cartProducts.push(qtyItemObj);
-      } else if (itemCount > 0) {
-        for (const product of shoppingCartInstance.cartProducts) {
-          if (product[1].id === item.id) {
-            product[0]++;
+        if (itemCount === 0) {
+          let qtyItemObj = [1, item];
+          shoppingCartInstance.cartProducts.push(qtyItemObj);
+        } else if (itemCount > 0) {
+          for (const product of shoppingCartInstance.cartProducts) {
+            if (product[1].id === item.id) {
+              product[0]++;
+            }
           }
         }
       }
     }
+
+    getShopCartData();
   }
 
-  getShopCartData();
+  // Product Added animation
+  e.target.classList = "product__add-btn--green";
+  e.target.innerHTML = "Added!";
+
+  setTimeout(restoreBtn, 2000);
+
+  function restoreBtn() {
+    e.target.classList = "product__add-btn";
+    e.target.innerHTML = "+";
+  }
+}
+
+function addToCartFromModal(e) {
+  // Get the id of the product the user clicked, push item correspoding to id into the cart
+  if (e.target.classList == "product__modal__add-btn") {
+    const selectedProductID = e.target.parentElement.parentElement.querySelector(
+      ".product__id"
+    ).dataset.product__id;
+    for (item of productDatabase) {
+      if (item.id == selectedProductID) {
+        let itemCount = 0;
+        if (shoppingCartInstance.cartProducts.length > 0) {
+          for (const product of shoppingCartInstance.cartProducts) {
+            if (product[1].id === item.id) {
+              itemCount++;
+            }
+          }
+        }
+        if (itemCount === 0) {
+          let qtyItemObj = [1, item];
+          shoppingCartInstance.cartProducts.push(qtyItemObj);
+        } else if (itemCount > 0) {
+          for (const product of shoppingCartInstance.cartProducts) {
+            if (product[1].id === item.id) {
+              product[0]++;
+            }
+          }
+        }
+      }
+    }
+
+    getShopCartData();
+  }
+
+  // Product Added animation
+  e.target.classList = "product__modal__add-btn--green";
+  e.target.innerHTML = "Added to cart!";
+
+  setTimeout(restoreBtn, 2000);
+
+  function restoreBtn() {
+    e.target.classList = "product__modal__add-btn";
+    e.target.innerHTML = "Add to cart";
+  }
 }
 
 function removeCartItem(e) {
@@ -804,7 +894,7 @@ function orderFilteredProdList(prodList) {
   let position = 1;
   for (prod of prodList) {
     finalOrderedProductList.push([position, prod]);
-    if (i === 4) {
+    if (i === 7) {
       position++;
       i = -1;
     }
