@@ -305,7 +305,7 @@ function productModal(e) {
     // ------ ------
     const productModalCloseModalBtn = document.createElement("div");
     productModalCloseModalBtn.classList = "product__modal__close-btn";
-    productModalCloseModalBtn.innerHTML = "x";
+    productModalCloseModalBtn.innerHTML = "Close";
     productModalCloseModalBtn.addEventListener("click", closeProductModal);
 
     const productModalImage = document.createElement("img");
@@ -340,12 +340,12 @@ function productModal(e) {
 
     productModalContent.appendChild(productModalImage);
     productModalContent.appendChild(productModalDescription);
-    productModalContent.appendChild(productModalCloseModalBtn);
 
     productModalDescription.appendChild(productModalName);
     productModalDescription.appendChild(productModalDetails);
     productModalDescription.appendChild(productModalPrice);
     productModalDescription.appendChild(productModalAddBtn);
+    productModalDescription.appendChild(productModalCloseModalBtn);
 
     productModalElement.appendChild(productModalContent);
     productModalContent.appendChild(product__id);
@@ -943,6 +943,17 @@ function searchProductList(currentProdList) {
   searchProdList = currentSearchProdList;
   console.log(searchProdList);
 }
+// ------------------------------------- Hide Navbar When Scrolling -------------------------------------
+let prevScrollpos = window.pageYOffset;
+window.onscroll = function () {
+  let currentScrollPos = window.pageYOffset;
+  if (prevScrollpos > currentScrollPos) {
+    document.querySelector(".navbar").style.top = "0px";
+  } else {
+    document.querySelector(".navbar").style.top = "-100px";
+  }
+  prevScrollpos = currentScrollPos;
+};
 
 // ------------------------------------- Function that adds all objects to UI -------------------------------------
 function populateUI(prodList) {
