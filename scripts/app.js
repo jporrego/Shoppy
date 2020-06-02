@@ -50,7 +50,7 @@ let productDatabase = [
     description:
       "Yellow Ducky is a special Shine 3, clad with yellow engraved PBT keycaps with yellow casing.",
     price: 155.99,
-    img: "../img/product_keyboard_ducky_shine3yellow.png",
+    img: "./img/product_keyboard_ducky_shine3yellow.png",
     id: 01,
     brand: "Ducky",
     model: "Shine 3 Yellow",
@@ -61,7 +61,7 @@ let productDatabase = [
     description:
       "The Ducky One 2 Mini Mecha is everything you love about the classic One 2 Mini wrapped in one of the most beautifully balanced frames ever used in a keyboard.",
     price: 119.99,
-    img: "../img/product_keyboard_ducky_mechamini.png",
+    img: "./img/product_keyboard_ducky_mechamini.png",
     id: 02,
     brand: "Ducky",
     model: "Mecha Mini",
@@ -72,7 +72,7 @@ let productDatabase = [
     description:
       "Varmilo keyboard with a traditional Chinese opera design, with red, white and gold accents.",
     price: 162.99,
-    img: "../img/product_keyboard_varmilo_beijingopera.png",
+    img: "./img/product_keyboard_varmilo_beijingopera.png",
     id: 03,
     brand: "Varmilo",
     model: "Beijing Opera",
@@ -82,7 +82,7 @@ let productDatabase = [
     name: "Varmilo VA87M Radiation",
     description: "Varmilo VA87M Radiation mechanical keyboard with white LEDs.",
     price: 129.99,
-    img: "../img/product_keyboard_varmilo_radiation.png",
+    img: "./img/product_keyboard_varmilo_radiation.png",
     id: 04,
     brand: "Varmilo",
     model: "VA87M Radiation",
@@ -93,7 +93,7 @@ let productDatabase = [
     description:
       "Leopold FC750R Grey/Blue PD TKL Double Shot PBT Mechanical Keyboard.",
     price: 119.99,
-    img: "../img/product_keyboard_leopold_fc750re.png",
+    img: "./img/product_keyboard_leopold_fc750re.png",
     id: 05,
     brand: "Leopold",
     model: "FC750R Grey/Blue",
@@ -104,7 +104,7 @@ let productDatabase = [
     description:
       "Razer Nari Essential Wireless THX Spatial Audio Gaming Headset for PC and PlayStation 4.",
     price: 89.99,
-    img: "../img/product_headset_razer_nariessential.png",
+    img: "./img/product_headset_razer_nariessential.png",
     id: 06,
     brand: "Razer",
     model: "Nari Essential",
@@ -115,7 +115,7 @@ let productDatabase = [
     description:
       "The Cloud Alpha headset builds upon HyperX’s foundation of signature award-winning comfort with premium red memory foam, expanded headband and softer, more pliable leatherette.",
     price: 99.99,
-    img: "../img/product_headset_hyperx_cloudalpha.png",
+    img: "./img/product_headset_hyperx_cloudalpha.png",
     id: 07,
     brand: "HyperX",
     model: "HyperX Cloud Alpha",
@@ -126,7 +126,7 @@ let productDatabase = [
     description:
       "The Arctis Pro headset features premium speaker drivers with high-density neodymium magnets that reproduce Hi-Res audio out to 40,000 Hz.",
     price: 329.99,
-    img: "../img/product_headset_steelseries_arctisprowireless.png",
+    img: "./img/product_headset_steelseries_arctisprowireless.png",
     id: 08,
     brand: "SteelSeries",
     model: "Arctis Pro Wireless",
@@ -137,7 +137,7 @@ let productDatabase = [
     description:
       "Louder is better! Immerse yourself in your Xbox One and PS4™ games with the Turtle Beach® Recon 200’s powerful amplified audio with Bass Boost.",
     price: 59.99,
-    img: "../img/product_headset_turtlebeach_recon200.png",
+    img: "./img/product_headset_turtlebeach_recon200.png",
     id: 09,
     brand: "Turtle Beach",
     model: "Recon 200",
@@ -159,7 +159,7 @@ let productDatabase = [
     description:
       "Equipped with the new esports-grade 16,000 DPI optical sensor and true tracking at 450 Inches Per Second (IPS), the Razer DeathAdder Elite ergonomic mouse gives you the absolute advantage.",
     price: 69.99,
-    img: "../img/product_headset_razer_deathadderelite.png",
+    img: "./img/product_headset_razer_deathadderelite.png",
     id: 11,
     brand: "Razer",
     model: "DeathAdder Elite",
@@ -170,7 +170,7 @@ let productDatabase = [
     description:
       "Play faster and more accurately than ever before. With gaming-grade performance, you can target more precisely, maneuver more quickly and dominate more opponents.",
     price: 32.99,
-    img: "../img/product_headset_logitech_g203prodigy.png",
+    img: "./img/product_headset_logitech_g203prodigy.png",
     id: 12,
     brand: "Logitech",
     model: "G203 Prodigy",
@@ -181,7 +181,7 @@ let productDatabase = [
     description:
       "The CORSAIR NIGHTSWORD RGB PerformanceTunable Gaming Mouse is equipped with a cutting-edge 18,000 DPI optical sensor, sophisticated weight calibration and a real-time center of gravity detection system.",
     price: 79.99,
-    img: "../img/product_mouse_corsair_nightsword.png",
+    img: "./img/product_mouse_corsair_nightsword.png",
     id: 13,
     brand: "Corsair",
     model: "Nightsword",
@@ -192,7 +192,7 @@ let productDatabase = [
     description:
       "The ASUS PG279Q 27-inch monitor boasts stunning 2560 x 1440 resolution and the Republic of Gamers designation, so you know it was built with gamers in mind.",
     price: 899.99,
-    img: "../img/product_headset_asus_pg279q.png",
+    img: "./img/product_headset_asus_pg279q.png",
     id: 14,
     brand: "ASUS",
     model: 'ROG Swift PG279Q 27"',
@@ -943,17 +943,53 @@ function searchProductList(currentProdList) {
   searchProdList = currentSearchProdList;
   console.log(searchProdList);
 }
-// ------------------------------------- Hide Navbar When Scrolling -------------------------------------
+
+// ------------------------------------- Mobile Navbar -------------------------------------
+
+// ------Hide Navbar When Scrolling --------------
 let prevScrollpos = window.pageYOffset;
 window.onscroll = function () {
-  let currentScrollPos = window.pageYOffset;
-  if (prevScrollpos > currentScrollPos) {
-    document.querySelector(".navbar").style.top = "0px";
-  } else {
-    document.querySelector(".navbar").style.top = "-100px";
+  if (document.querySelector(".navbar__menu__modal").style.display != "grid") {
+    let currentScrollPos = window.pageYOffset;
+    if (prevScrollpos > currentScrollPos) {
+      document.querySelector(".navbar").style.top = "0px";
+    } else {
+      document.querySelector(".navbar").style.top = "-100px";
+    }
+    prevScrollpos = currentScrollPos;
   }
-  prevScrollpos = currentScrollPos;
 };
+
+function noScroll() {
+  window.scrollTo(0, 0);
+}
+
+// ------ Show mobile menu --------------
+document
+  .querySelector(".navbar__menu__btn")
+  .addEventListener("click", openMenuModal);
+
+function openMenuModal(e) {
+  const menuModal = document.querySelector(".navbar__menu__modal");
+
+  menuModal.style.display = "grid";
+
+  window.addEventListener("scroll", noScroll);
+  document.body.style.overflow = "hidden";
+}
+// ------ Hide mobile menu --------------
+document
+  .querySelector(".navbar__menu__modal__close-btn")
+  .addEventListener("click", closeMenuModal);
+
+function closeMenuModal(e) {
+  const menuModal = document.querySelector(".navbar__menu__modal");
+
+  menuModal.style.display = "none";
+
+  window.removeEventListener("scroll", noScroll);
+  document.body.style.overflow = "visible";
+}
 
 // ------------------------------------- Function that adds all objects to UI -------------------------------------
 function populateUI(prodList) {
