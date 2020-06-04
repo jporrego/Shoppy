@@ -653,6 +653,8 @@ function closeShoppingCartModal(e) {
 
 // ------------------------------------- Pagination -------------------------------------
 function goToProductPage(e, num) {
+  scrollToSearchBar();
+  document.querySelector(".navbar").style.top = "-100px";
   const pagSelectors = document.querySelector(
     ".products__pagination__selectors"
   );
@@ -773,6 +775,13 @@ function checkSelected() {
     }
   }
 }
+
+function scrollToSearchBar() {
+  document
+    .querySelector(".search-bar")
+    .scrollIntoView({ behavior: "smooth", block: "center" });
+}
+
 // ------------------------------------- Filters -------------------------------------
 function buildCategoryFilter() {
   const categoryForm = document.querySelector(
@@ -894,7 +903,7 @@ function orderFilteredProdList(prodList) {
   let position = 1;
   for (prod of prodList) {
     finalOrderedProductList.push([position, prod]);
-    if (i === 7) {
+    if (i === 2) {
       position++;
       i = -1;
     }
@@ -911,6 +920,18 @@ function filterProducts() {
   goToProductPage(undefined, 0);
   populateUI(orderFilteredProdList(currentProdList));
 }
+
+document
+  .querySelector(".products__filter-top__menu-btn")
+  .addEventListener("click", function () {
+    document.querySelector(".products__filter-left").style.display = "grid";
+  });
+
+document
+  .querySelector(".products__menu__modal__close-btn")
+  .addEventListener("click", function () {
+    document.querySelector(".products__filter-left").style.display = "none";
+  });
 
 // ------------------------------------- Search Bar -------------------------------------
 const searchBar = document.querySelector(".search-bar");
