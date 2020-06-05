@@ -779,7 +779,7 @@ function checkSelected() {
 function scrollToSearchBar() {
   document
     .querySelector(".search-bar")
-    .scrollIntoView({ behavior: "smooth", block: "center" });
+    .scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 // ------------------------------------- Filters -------------------------------------
@@ -903,7 +903,7 @@ function orderFilteredProdList(prodList) {
   let position = 1;
   for (prod of prodList) {
     finalOrderedProductList.push([position, prod]);
-    if (i === 2) {
+    if (i === 7) {
       position++;
       i = -1;
     }
@@ -922,16 +922,28 @@ function filterProducts() {
 }
 
 document
-  .querySelector(".products__filter-top__menu-btn")
+  .querySelector(".products__filter-top__menu")
   .addEventListener("click", function () {
     document.querySelector(".products__filter-left").style.display = "grid";
+    window.addEventListener("scroll", noScroll);
+    document.body.style.overflow = "hidden";
   });
 
 document
   .querySelector(".products__menu__modal__close-btn")
   .addEventListener("click", function () {
     document.querySelector(".products__filter-left").style.display = "none";
+    window.removeEventListener("scroll", noScroll);
+    document.body.style.overflow = "visible";
   });
+
+window.addEventListener("resize", function (e) {
+  if (window.matchMedia("only screen and (min-width: 39em)").matches) {
+    document.querySelector(".products__filter-left").style.display = "grid";
+  } else {
+    document.querySelector(".products__filter-left").style.display = "none";
+  }
+});
 
 // ------------------------------------- Search Bar -------------------------------------
 const searchBar = document.querySelector(".search-bar");
