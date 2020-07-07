@@ -5,7 +5,6 @@
 }
 
 html {
-    height: 100%;
     /* Colors */
     --color-text: #1a1a1a;
     --color-text-light: #aaaaaa;
@@ -32,7 +31,6 @@ html {
 }
 
 body {
-    height: 100%;
     font-family: var(--font-primary);
     font-size: 1.6rem;
     font-weight: 300;
@@ -154,7 +152,8 @@ body {
     position: fixed;
     background-color: var(--color-bg);
     width: 100vw;
-    height: 100vh;
+    /*height: 100vh;*/
+    height: calc(var(--vh, 1vh) * 100);
     grid-template-columns: 100%;
     grid-template-rows: 1fr min-content;
     align-items: center;
