@@ -714,7 +714,10 @@ function closeShoppingCartModal(e) {
 
 // ------------------------------------- Pagination -------------------------------------
 function goToProductPage(e, num) {
-  scrollToSearchBar();
+  if (e != undefined) {
+    scrollToSearchBar();
+  }
+
   document.querySelector(".navbar").style.top = "-100px";
   const pagSelectors = document.querySelector(
     ".products__pagination__selectors"
@@ -1047,7 +1050,10 @@ let prevScrollpos = window.pageYOffset;
 window.onscroll = function () {
   if (document.querySelector(".navbar__menu__modal").style.display != "grid") {
     let currentScrollPos = window.pageYOffset;
-    if (prevScrollpos > currentScrollPos) {
+    console.log(currentScrollPos);
+    if (currentScrollPos <= 40) {
+      document.querySelector(".navbar").style.top = "0px";
+    } else if (prevScrollpos > currentScrollPos) {
       document.querySelector(".navbar").style.top = "0px";
     } else {
       document.querySelector(".navbar").style.top = "-100px";
