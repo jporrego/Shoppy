@@ -656,7 +656,7 @@ body {
     grid-column: 2/3;
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: minmax(10rem, 1fr) minmax(min-content, max-content) minmax(min-content, 7rem);
+    grid-template-rows: minmax(10rem, 1fr) minmax(min-content, max-content) minmax(min-content, max-content);
     background-color: var(--color-bg);
     color: var(--color-text)
     /*padding: 3rem 0px 0px 4rem;*/
@@ -824,7 +824,7 @@ body {
     }
     .shopping-cart-modal__content__go-to-cart:hover {
         filter: brightness(.92);
-        font-size: 2rem;
+        font-size: 3.3rem;
     }
     .shopping-cart-modal__content__close:hover {
         filter: brightness(.92);
@@ -833,8 +833,6 @@ body {
 
 @media only screen and (max-width: 39em) {
     .shopping-cart-modal {
-        height: 100%;
-        height: calc(var(--vh, 1vh) * 100);
         grid-template-columns: 1fr;
         grid-template-rows: 100vh;
         z-index: 200;
@@ -843,7 +841,7 @@ body {
         display: grid;
         grid-column: 1/2;
         grid-template-columns: 1fr;
-        grid-template-rows: minmax(10rem, 1fr) min-content minmax(min-content, 15rem);
+        grid-template-rows: minmax(10rem, 1fr) minmax(min-content, max-content) minmax(min-content, max-content);
         background-color: var(--color-bg);
         color: var(--color-text)
         /*padding: 3rem 0px 0px 4rem;*/
