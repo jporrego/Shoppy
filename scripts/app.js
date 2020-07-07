@@ -1011,6 +1011,29 @@ window.addEventListener("resize", function (e) {
   }
 });
 
+document
+  .querySelectorAll(".navbar__links__a")
+  .forEach((x) => x.addEventListener("click", navbarLink));
+
+function navbarLink(e) {
+  const categories = document.querySelectorAll(
+    ".products__filter-left__category__form__item"
+  );
+  for (const i of categories) {
+    i.children[0].checked = false;
+  }
+
+  for (const i of categories) {
+    let length = e.target.innerHTML.length;
+    if (i.children[0].value == e.target.innerHTML.slice(0, length - 1)) {
+      i.children[0].checked = true;
+    }
+  }
+
+  filterProducts();
+  document.querySelector(".footer").scrollIntoView();
+  /*scrollToSearchBar();*/
+}
 // ------------------------------------- Search Bar -------------------------------------
 const searchBar = document.querySelector(".search-bar");
 searchBar.addEventListener("keyup", searchProducts);
@@ -1050,7 +1073,7 @@ let prevScrollpos = window.pageYOffset;
 window.onscroll = function () {
   if (document.querySelector(".navbar__menu__modal").style.display != "grid") {
     let currentScrollPos = window.pageYOffset;
-    console.log(currentScrollPos);
+
     if (currentScrollPos <= 40) {
       document.querySelector(".navbar").style.top = "0px";
     } else if (prevScrollpos > currentScrollPos) {
