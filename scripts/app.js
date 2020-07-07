@@ -199,8 +199,7 @@ let productDatabase = [
     category: "Monitor",
   },
   {
-    name:
-      "Xbox Elite Wireless Controller Series 2 Xbox Elite Wireless Controller Series 2",
+    name: "Xbox Elite Wireless Controller Series 2",
     description:
       "Improve your play with this Xbox Elite wireless series 2 controller. Swappable thumbsticks and paddle shapes support easy customization, and the integrated Xbox Accessories app provides even more configuration options.",
     price: 179.99,

@@ -835,6 +835,7 @@ body {
     .shopping-cart-modal {
         grid-template-columns: 1fr;
         grid-template-rows: 100vh;
+        grid-template-rows: calc(var(--vh, 1vh) * 100);
         z-index: 200;
     }
     .shopping-cart-modal__content {
@@ -1180,6 +1181,7 @@ body {
         top: 0;
         width: 100vw;
         height: 100vh;
+        height: calc(var(--vh, 1vh) * 100);
         z-index: 500;
         padding-top: 2rem;
         padding-left: 3rem;
