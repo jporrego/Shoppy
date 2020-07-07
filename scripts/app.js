@@ -277,7 +277,10 @@ function productModal(e) {
     // --- Blur Background ---
     const background = document.querySelector(".container");
     background.classList.add("container--blur");
-    // --- ---
+    // --- Prevent body scrolling ---
+    const body = document.querySelector("body");
+    body.classList.add("body--noscroll");
+
     const mainContainer = document.querySelector(".container");
     // ------ Get product ID and product ------
     let clickedProdId;
@@ -362,6 +365,8 @@ function closeProductModal(e) {
     productModal.remove();
     // --- Remove Blur ---
     const background = document.querySelector(".container");
+    const body = document.querySelector("body");
+    body.classList.remove("body--noscroll");
     background.classList.remove("container--blur");
   }
 }
@@ -636,7 +641,9 @@ function openCartModal(e) {
   // --- Blur ---
   const background = document.querySelector(".container");
   background.classList.add("container--blur");
-  // ---
+  // --- Prevent body scrolling
+  const body = document.querySelector("body");
+  body.classList.add("body--noscroll");
 
   const shoppingCartModal = document.querySelector(".shopping-cart-modal");
   shoppingCartModal.classList.add("shopping-cart-modal--show");
@@ -644,8 +651,17 @@ function openCartModal(e) {
 
 function closeShoppingCartModal(e) {
   const shoppingCartModal = document.querySelector(".shopping-cart-modal");
-  if (e.target === shoppingCartModal) {
+  const shoppingCartModalCloseBtn = document.querySelector(
+    ".shopping-cart-modal__content__close"
+  );
+
+  if (
+    e.target === shoppingCartModal ||
+    e.target === shoppingCartModalCloseBtn
+  ) {
     const background = document.querySelector(".container");
+    const body = document.querySelector("body");
+    body.classList.remove("body--noscroll");
     background.classList.remove("container--blur");
     shoppingCartModal.classList.remove("shopping-cart-modal--show");
   }
