@@ -209,6 +209,39 @@ let productDatabase = [
     model: "Elite Wireless Controller Series 2",
     category: "Controller",
   },
+  {
+    name: "DualShock 4 Wireless Controller",
+    description:
+      "Play your favorite video games with this PlayStation 4 DualShock controller. The microUSB port lets you keep it charged and ready to use, and the trigger buttons and controls deliver immediate response on even the most challenging games.",
+    price: 59.99,
+    img: "./img/product_controller_sony_dualshock4wirelesscontroller.png",
+    id: 16,
+    brand: "Sony",
+    model: "DualShock 4 Wireless",
+    category: "Controller",
+  },
+  {
+    name: "Xbox Elite Controller 2 Creeper Edition",
+    description:
+      "Improve your play with this Xbox Elite wireless series 2 controller, creeper edition. Swappable thumbsticks and paddle shapes support easy customization, and the integrated Xbox Accessories app provides even more configuration options.",
+    price: 199.99,
+    img: "./img/product_controller_microsoft_xboxoneeliteseries2creeper.png",
+    id: 17,
+    brand: "Microsoft",
+    model: "Elite Controller 2 Creeper Edition",
+    category: "Controller",
+  },
+  {
+    name: "Astro Gaming C40 TR Wireless Controller",
+    description:
+      "Take control of your gaming experience with this Logitech Astro USB controller. The highly durable construction is great for extended sessions, and the fully customizable layout lets you remap each button to mimic any console configuration.",
+    price: 199.99,
+    img: "./img/product_controller_astro_c40trwirelesscontroller.png",
+    id: 18,
+    brand: "Astro Gaming",
+    model: "C40 TR Wireless Controller",
+    category: "Controller",
+  },
 ];
 
 // ------------------------------------- Product Builder Function -------------------------------------
