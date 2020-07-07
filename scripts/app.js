@@ -148,7 +148,7 @@ let productDatabase = [
     description:
       "The Turtle Beach® Elite Atlas Aero is the ultimate high-performance wireless headset for PC gamers and streamers with customizable audio and unmatched comfort.",
     price: 149.99,
-    img: "../img/product_headset_turtlebeach_eliteatlasaerowireless.png",
+    img: "./img/product_headset_turtlebeach_eliteatlasaerowireless.png",
     id: 10,
     brand: "Turtle Beach",
     model: "Elite Atlas Aero Wireless",
@@ -197,6 +197,18 @@ let productDatabase = [
     brand: "ASUS",
     model: 'ROG Swift PG279Q 27"',
     category: "Monitor",
+  },
+  {
+    name:
+      "Xbox Elite Wireless Controller Series 2 Xbox Elite Wireless Controller Series 2",
+    description:
+      "Improve your play with this Xbox Elite wireless series 2 controller. Swappable thumbsticks and paddle shapes support easy customization, and the integrated Xbox Accessories app provides even more configuration options.",
+    price: 179.99,
+    img: "./img/product_controller_microsoft_xboxoneeliteseries2.png",
+    id: 15,
+    brand: "Microsoft",
+    model: "Elite Wireless Controller Series 2",
+    category: "Controller",
   },
 ];
 
@@ -420,7 +432,7 @@ function createShoppingCartProductHTML(cartProduct) {
   );
   shoppingCartProductElement__qty__arrowup.classList =
     "shoppingCartProductElement__qty-selector__arrow-up";
-  shoppingCartProductElement__qty__arrowup.src = "../img/arrUp.png";
+  shoppingCartProductElement__qty__arrowup.src = "./img/arrUp.png";
   shoppingCartProductElement__qty__arrowup.addEventListener(
     "click",
     increaseQty
@@ -431,7 +443,7 @@ function createShoppingCartProductHTML(cartProduct) {
   );
   shoppingCartProductElement__qty__arrowDown.classList =
     "shoppingCartProductElement__qty-selector__arrow-down";
-  shoppingCartProductElement__qty__arrowDown.src = "../img/arrDwn.png";
+  shoppingCartProductElement__qty__arrowDown.src = "./img/arrDwn.png";
   shoppingCartProductElement__qty__arrowDown.addEventListener(
     "click",
     decreaseQty
