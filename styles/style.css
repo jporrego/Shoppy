@@ -654,7 +654,7 @@ body {
     grid-column: 2/3;
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: minmax(10rem, 1fr) max-content minmax(min-content, 10rem);
+    grid-template-rows: minmax(10rem, 1fr) max-content minmax(min-content, 7rem);
     background-color: var(--color-bg);
     color: var(--color-text)
     /*padding: 3rem 0px 0px 4rem;*/
@@ -845,10 +845,10 @@ body {
         /*padding: 3rem 0px 0px 4rem;*/
     }
     .shopping-cart-modal__content__total__title {
-        font-size: 3.5rem;
+        font-size: 2.5rem;
     }
     .shopping-cart-modal__content__total__price {
-        font-size: 3.5rem;
+        font-size: 2.5rem;
     }
     .shopping-cart-modal__content__go-to-cart {
         font-size: 3rem;
@@ -858,7 +858,7 @@ body {
     }
     /* -------------- Product Changes --------------*/
     .shopping-cart-modal__product-list__product {
-        grid-template-columns: min-content 45% 1fr;
+        grid-template-columns: min-content 30% 1fr;
         margin-bottom: 5rem;
     }
     .shopping-cart-modal__product-list__product__img {
@@ -872,14 +872,14 @@ body {
         justify-self: center;
     }
     .shopping-cart-modal__product-list__product__name {
-        font-size: 3rem;
+        font-size: 2.5rem;
     }
     .shopping-cart-modal__product-list__product__price {
-        font-size: 3rem;
+        font-size: 2.5rem;
     }
     .shopping-cart-modal__product-list__product__remove-btn {
         justify-self: end;
-        font-size: 3rem;
+        font-size: 2.5rem;
         text-decoration: none;
         padding-right: 2rem;
     }
@@ -894,18 +894,18 @@ body {
         user-select: none;
     }
     .shoppingCartProductElement__qty-selector__arrow-up {
-        width: 4rem;
+        width: 3.5rem;
         height: auto;
         margin-bottom: 2rem;
     }
     .shoppingCartProductElement__qty-selector__arrow-down {
-        width: 4rem;
+        width: 3.5rem;
         height: auto;
         margin-top: 2rem;
     }
     .shoppingCartProductElement__qty-selector__counter {
         margin: 5rem 0rem;
-        font-size: 3rem;
+        font-size: 2.5rem;
     }
 }
 

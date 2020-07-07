@@ -1107,10 +1107,17 @@ function paginationPopulation(pageNum, filteredProducts) {
   }
 }
 
+function resetHeight() {
+  // reset the body height to that of the inner browser
+  document.body.style.height = window.innerHeight + "px";
+}
+window.addEventListener("resize", resetHeight);
+
 function runTimeFunctions() {
   buildCategoryFilter();
   buildBrandFilter();
   filterProducts();
+  resetHeight();
 }
 
 runTimeFunctions();
