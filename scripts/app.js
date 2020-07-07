@@ -262,6 +262,7 @@ function createProduct(prod) {
   productElement.appendChild(productElement__id);
   productElement.appendChild(productElement__infoContainer);
   productElement.addEventListener("click", productModal);
+  productElement.classList.add("noSelect");
   /*
   productElement.appendChild(productElement__category);
   */
