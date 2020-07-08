@@ -880,33 +880,74 @@ function buildCategoryFilter() {
 }
 
 function buildBrandFilter() {
+  const categories = document.querySelectorAll(
+    ".products__filter-left__category__form__item"
+  );
+  /* Section to filter brands according to the selected category */
+  let selectedCategories = [];
+  for (const category of categories) {
+    if (category.children[0].checked) {
+      selectedCategories.push(category.children[0].value);
+    }
+  }
+
+  let brandsWithintSelectedCategory = [];
+  for (const product of productDatabase) {
+    if (
+      selectedCategories.includes(product.category) &&
+      !brandsWithintSelectedCategory.includes(product.brand)
+    ) {
+      brandsWithintSelectedCategory.push(product.brand);
+    }
+  }
+
   const brandForm = document.querySelector(
     ".products__filter-left__brand__form"
   );
 
+  if (brandsWithintSelectedCategory[0] === undefined) {
+    for (const brand of brandForm.children) {
+      if (brand != undefined) {
+        brand.style.display = "block";
+      }
+    }
+  } else {
+    for (const brand of brandForm.children) {
+      if (brand != undefined) {
+        if (!brandsWithintSelectedCategory.includes(brand.children[0].value)) {
+          brand.style.display = "none";
+        } else {
+          brand.style.display = "block";
+        }
+      }
+    }
+  }
+
   let addedBrands = [];
 
-  for (const prod of productDatabase) {
-    if (!addedBrands.includes(prod.brand)) {
-      const item = document.createElement("div");
-      item.classList = "products__filter-left__brand__form__item";
+  if (brandForm.children[0] === undefined) {
+    for (const prod of productDatabase) {
+      if (!addedBrands.includes(prod.brand)) {
+        const item = document.createElement("div");
+        item.classList = "products__filter-left__brand__form__item";
 
-      const input = document.createElement("input");
-      input.type = "checkbox";
-      input.id = prod.brand + "_brand";
-      input.name = prod.brand;
-      input.value = prod.brand;
-      input.addEventListener("click", filterProducts);
+        const input = document.createElement("input");
+        input.type = "checkbox";
+        input.id = prod.brand + "_brand";
+        input.name = prod.brand;
+        input.value = prod.brand;
+        input.addEventListener("click", filterProducts);
 
-      const label = document.createElement("label");
-      label.for = prod.brand;
-      label.innerHTML = prod.brand;
+        const label = document.createElement("label");
+        label.for = prod.brand;
+        label.innerHTML = prod.brand;
 
-      item.appendChild(input);
-      item.appendChild(label);
+        item.appendChild(input);
+        item.appendChild(label);
 
-      brandForm.appendChild(item);
-      addedBrands.push(prod.brand);
+        brandForm.appendChild(item);
+        addedBrands.push(prod.brand);
+      }
     }
   }
 }
@@ -983,6 +1024,7 @@ function filterProducts() {
   buildPagination(orderFilteredProdList(currentProdList));
   goToProductPage(undefined, 0);
   populateUI(orderFilteredProdList(currentProdList));
+  buildBrandFilter();
 }
 
 document
@@ -1031,8 +1073,7 @@ function navbarLink(e) {
   }
 
   filterProducts();
-  document.querySelector(".footer").scrollIntoView();
-  /*scrollToSearchBar();*/
+  setTimeout(scrollToSearchBar, 100);
 }
 // ------------------------------------- Search Bar -------------------------------------
 const searchBar = document.querySelector(".search-bar");
