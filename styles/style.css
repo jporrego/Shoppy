@@ -158,6 +158,7 @@ body {
     grid-template-rows: 1fr min-content;
     align-items: center;
     justify-items: center;
+    overflow: hidden;
 }
 
 .navbar__menu__modal__links {
@@ -658,7 +659,8 @@ body {
     grid-template-columns: 1fr;
     grid-template-rows: minmax(10rem, 1fr) minmax(min-content, max-content) minmax(min-content, max-content);
     background-color: var(--color-bg);
-    color: var(--color-text)
+    color: var(--color-text);
+    overflow: hidden;
     /*padding: 3rem 0px 0px 4rem;*/
 }
 
