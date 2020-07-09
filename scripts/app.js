@@ -847,6 +847,10 @@ function scrollToSearchBar() {
 }
 
 // ------------------------------------- Filters -------------------------------------
+let currentCategoryFilters = document.querySelectorAll(
+  ".products__filter-left__category__form__item"
+);
+console.log(currentCategoryFilters);
 function buildCategoryFilter() {
   const categoryForm = document.querySelector(
     ".products__filter-left__category__form"
@@ -880,10 +884,20 @@ function buildCategoryFilter() {
 }
 
 function buildBrandFilter() {
+  const brandForm = document.querySelector(
+    ".products__filter-left__brand__form"
+  );
+
+  if (brandForm.children.length > 0) {
+    for (const brand of brandForm.children) {
+      /*brand.children[0].checked = false;*/
+    }
+  }
+  /* Section to filter brands according to the selected category */
   const categories = document.querySelectorAll(
     ".products__filter-left__category__form__item"
   );
-  /* Section to filter brands according to the selected category */
+
   let selectedCategories = [];
   for (const category of categories) {
     if (category.children[0].checked) {
@@ -900,10 +914,6 @@ function buildBrandFilter() {
       brandsWithintSelectedCategory.push(product.brand);
     }
   }
-
-  const brandForm = document.querySelector(
-    ".products__filter-left__brand__form"
-  );
 
   if (brandsWithintSelectedCategory[0] === undefined) {
     for (const brand of brandForm.children) {
@@ -1024,7 +1034,7 @@ function filterProducts() {
   buildPagination(orderFilteredProdList(currentProdList));
   goToProductPage(undefined, 0);
   populateUI(orderFilteredProdList(currentProdList));
-  buildBrandFilter();
+  buildBrandFilter(true);
 }
 
 document
