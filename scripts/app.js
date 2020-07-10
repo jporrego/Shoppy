@@ -688,8 +688,9 @@ function openCartModal(e) {
   background.classList.add("container--blur");
   // --- Prevent body scrolling
   const body = document.querySelector("body");
+  const html = document.querySelector("html");
   body.classList.add("body--noscroll");
-
+  html.classList.add("body--noscroll");
   const shoppingCartModal = document.querySelector(".shopping-cart-modal");
   shoppingCartModal.classList.add("shopping-cart-modal--show");
 }
@@ -706,7 +707,9 @@ function closeShoppingCartModal(e) {
   ) {
     const background = document.querySelector(".container");
     const body = document.querySelector("body");
+    const html = document.querySelector("html");
     body.classList.remove("body--noscroll");
+    html.classList.remove("body--noscroll");
     background.classList.remove("container--blur");
     shoppingCartModal.classList.remove("shopping-cart-modal--show");
   }
@@ -1176,6 +1179,7 @@ function openMenuModal(e) {
   window.addEventListener("scroll", noScroll);
   const body = document.querySelector("body");
   body.classList.add("body--noscroll");
+  html.classList.add("body--noscroll");
 }
 // ------ Hide mobile menu --------------
 document
@@ -1190,6 +1194,7 @@ function closeMenuModal(e) {
 
   window.removeEventListener("scroll", noScroll);
   body.classList.remove("body--noscroll");
+  html.classList.remove("body--noscroll");
 }
 
 // ------------------------------------- Function that adds all objects to UI -------------------------------------
