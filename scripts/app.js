@@ -868,7 +868,9 @@ function buildCategoryFilter() {
       input.id = prod.category + "_category";
       input.name = prod.category;
       input.value = prod.category;
-      input.addEventListener("click", filterProducts);
+      input.addEventListener("click", function () {
+        updateFilters(true);
+      });
 
       const label = document.createElement("label");
       label.for = prod.category;
@@ -935,7 +937,7 @@ function buildBrandFilter() {
 
   let addedBrands = [];
 
-  if (brandForm.children[0] === undefined) {
+  if (brandForm.children.length == 0) {
     for (const prod of productDatabase) {
       if (!addedBrands.includes(prod.brand)) {
         const item = document.createElement("div");
@@ -946,7 +948,9 @@ function buildBrandFilter() {
         input.id = prod.brand + "_brand";
         input.name = prod.brand;
         input.value = prod.brand;
-        input.addEventListener("click", filterProducts);
+        input.addEventListener("click", function () {
+          updateFilters(false);
+        });
 
         const label = document.createElement("label");
         label.for = prod.brand;
@@ -960,6 +964,22 @@ function buildBrandFilter() {
       }
     }
   }
+}
+
+function updateFilters(rebuildBrandFilter) {
+  if (rebuildBrandFilter) {
+    const brandForm = document.querySelector(
+      ".products__filter-left__brand__form"
+    );
+
+    if (brandForm.children.length > 0) {
+      for (const brand of brandForm.children) {
+        brand.children[0].checked = false;
+      }
+    }
+    buildBrandFilter();
+  }
+  filterProducts();
 }
 
 window.currentProdList = productDatabase;
@@ -1034,7 +1054,6 @@ function filterProducts() {
   buildPagination(orderFilteredProdList(currentProdList));
   goToProductPage(undefined, 0);
   populateUI(orderFilteredProdList(currentProdList));
-  buildBrandFilter(true);
 }
 
 document
@@ -1085,6 +1104,10 @@ function navbarLink(e) {
   filterProducts();
   setTimeout(scrollToSearchBar, 100);
 }
+
+document
+  .querySelector(".landing__btn")
+  .addEventListener("click", scrollToSearchBar);
 // ------------------------------------- Search Bar -------------------------------------
 const searchBar = document.querySelector(".search-bar");
 searchBar.addEventListener("keyup", searchProducts);
@@ -1248,6 +1271,7 @@ function runTimeFunctions() {
   buildBrandFilter();
   filterProducts();
   viewportHeight();
+  document.querySelector(".navbar").style.top = "0px";
 }
 
 runTimeFunctions();

@@ -39,6 +39,7 @@ body {
 
 .body--noscroll {
     overflow: hidden;
+    touch-action: none;
 }
 
 .container {
