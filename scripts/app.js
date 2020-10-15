@@ -1041,7 +1041,7 @@ function orderFilteredProdList(prodList) {
   let position = 1;
   for (prod of prodList) {
     finalOrderedProductList.push([position, prod]);
-    if (i === 7) {
+    if (i === 15) {
       position++;
       i = -1;
     }
@@ -1111,6 +1111,7 @@ function navbarLink(e) {
 document
   .querySelector(".landing__btn")
   .addEventListener("click", scrollToSearchBar);
+
 // ------------------------------------- Search Bar -------------------------------------
 const searchBar = document.querySelector(".search-bar");
 searchBar.addEventListener("keyup", searchProducts);
@@ -1178,6 +1179,7 @@ function openMenuModal(e) {
 
   window.addEventListener("scroll", noScroll);
   const body = document.querySelector("body");
+  const html = document.querySelector("html");
   body.classList.add("body--noscroll");
   html.classList.add("body--noscroll");
 }
@@ -1186,9 +1188,17 @@ document
   .querySelector(".navbar__menu__modal__close-btn")
   .addEventListener("click", closeMenuModal);
 
+document.querySelector(".navbar__menu__modal__links").childNodes.forEach(item => {
+  item.addEventListener("click", (e) => {
+    closeMenuModal();
+    navbarLink(e);
+  });
+});
+
 function closeMenuModal(e) {
   const menuModal = document.querySelector(".navbar__menu__modal");
   const body = document.querySelector("body");
+  const html = document.querySelector("html");
 
   menuModal.style.display = "none";
 
